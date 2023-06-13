@@ -8,3 +8,6 @@ yarn
 # Start local server
 yarn dev
 ```
+
+## Important points
+- use `yarn`
