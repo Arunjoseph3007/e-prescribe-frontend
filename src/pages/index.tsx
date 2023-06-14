@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   return (
@@ -11,22 +13,34 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Box mx="auto" maxW="5xl" pt={16}>
-          <Heading size='2xl'>E-Prescribe</Heading>
-          <Text mt={8} textColor="GrayText" maxW="400px">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
-            placeat voluptate odio dolorum voluptatem magni suscipit? Natus
-            neque dolorem error, nam asperiores quasi sequi ad. Vel nam
-            architecto numquam doloremque!
-          </Text>
+        <Navbar />
+        <Flex  mx="auto" maxW="6xl" justify='space-between'>
+          <Box pt="36">
+            <Heading size="2xl">E-Prescribe</Heading>
+            <Text mt={8} textColor="GrayText" maxW="400px">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda
+              placeat voluptate odio dolorum voluptatem magni suscipit? Natus
+              neque dolorem error, nam asperiores quasi sequi ad. Vel nam
+              architecto numquam doloremque!
+            </Text>
 
-          <Flex mt={4} gap={4}>
-            <Button colorScheme="green">Login</Button>
-            <Button colorScheme="green" variant="outline">
-              Singup
-            </Button>
-          </Flex>
-        </Box>
+            <Flex mt={4} gap={4}>
+              <Button as={Link} href="/login" colorScheme="green">
+                Login
+              </Button>
+              <Button
+                as={Link}
+                href="/register"
+                colorScheme="green"
+                variant="outline"
+              >
+                SignUp
+              </Button>
+            </Flex>
+          </Box>
+
+          <Box>image</Box>
+        </Flex>
       </main>
     </>
   );
