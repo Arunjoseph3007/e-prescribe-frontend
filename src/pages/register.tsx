@@ -1,21 +1,27 @@
+import { useAuth } from "@/context/AuthContext";
 import { EmailIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Heading,
+  Icon,
   Input,
   InputGroup,
   InputLeftElement,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { AiFillMedicineBox } from "react-icons/ai";
 
 export default function Register() {
+  const { register, loading } = useAuth();
+  const [isDoc, setisDoc] = useState(false);
   const [formState, setFormState] = useState({
     firstName: "",
     lastName: "",
@@ -23,14 +29,16 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    age: 20,
   });
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    alert("Submitting");
+    register(formState);
   };
 
   return (
@@ -40,9 +48,10 @@ export default function Register() {
         <Box>
           <Box
             onSubmit={handleSubmit}
-            my={24}
-            p={6}
-            w={500}
+            my={6}
+            p={5}
+            py={3}
+            maxW={500}
             shadow="lg"
             rounded="md"
             as="form"
@@ -51,14 +60,14 @@ export default function Register() {
             <Heading textAlign="center" size="lg">
               Create an Account
             </Heading>
-            <Box my={3} fontSize="sm" textAlign={"center"}>
+            <Box my={2} fontSize="sm" textAlign={"center"}>
               Already have an account?{" "}
               <Text display="inline" color="blue.400">
                 <Link href="/login">Login</Link>
               </Text>
             </Box>
             <Flex gap={2}>
-              <FormControl mt={4} my={2} isRequired>
+              <FormControl mt={4} my={1} isRequired>
                 <FormLabel>First name</FormLabel>
                 <InputGroup>
                   <Input
@@ -69,7 +78,7 @@ export default function Register() {
                   />
                 </InputGroup>
               </FormControl>
-              <FormControl my={2} isRequired>
+              <FormControl my={1} isRequired>
                 <FormLabel>Last name</FormLabel>
                 <InputGroup>
                   <Input
@@ -81,7 +90,7 @@ export default function Register() {
                 </InputGroup>
               </FormControl>
             </Flex>
-            <FormControl my={2} isRequired>
+            <FormControl my={1} isRequired>
               <FormLabel>Username</FormLabel>
               <InputGroup>
                 <Input
@@ -92,7 +101,45 @@ export default function Register() {
                 />
               </InputGroup>
             </FormControl>
-            <FormControl my={2} isRequired>
+            <Flex gap={2}>
+              <FormControl w="full" my={1} isRequired>
+                <FormLabel>Age</FormLabel>
+                <InputGroup>
+                  <Input
+                    name="age"
+                    type="number"
+                    value={formState.age}
+                    onChange={handleChange}
+                  />
+                </InputGroup>
+              </FormControl>
+              <FormControl my={1} isRequired>
+                <FormLabel>Role</FormLabel>
+                <Flex gap={2}>
+                  <Tooltip label="Doctor">
+                    <Button
+                      flex={1}
+                      colorScheme="green"
+                      variant={isDoc ? "solid" : "outline"}
+                      onClick={(e) => setisDoc(true)}
+                    >
+                      <Icon as={AiFillMedicineBox} />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip label="User">
+                    <Button
+                      flex={1}
+                      colorScheme="green"
+                      variant={!isDoc ? "solid" : "outline"}
+                      onClick={(e) => setisDoc(false)}
+                    >
+                      <Icon as={FaUserCircle} />
+                    </Button>
+                  </Tooltip>
+                </Flex>
+              </FormControl>
+            </Flex>
+            <FormControl my={1} isRequired>
               <FormLabel>Email</FormLabel>
               <InputGroup>
                 <InputLeftElement>
@@ -107,7 +154,7 @@ export default function Register() {
                 />
               </InputGroup>
             </FormControl>
-            <FormControl my={2} isRequired>
+            <FormControl my={1} isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
@@ -118,7 +165,7 @@ export default function Register() {
                 />
               </InputGroup>
             </FormControl>
-            <FormControl my={2} isRequired>
+            <FormControl my={1} isRequired>
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <Input
@@ -129,7 +176,13 @@ export default function Register() {
                 />
               </InputGroup>
             </FormControl>
-            <Button type="submit" my={2} w="full" colorScheme="green">
+            <Button
+              isLoading={loading}
+              type="submit"
+              my={1}
+              w="full"
+              colorScheme="green"
+            >
               Create Account
             </Button>
           </Box>
