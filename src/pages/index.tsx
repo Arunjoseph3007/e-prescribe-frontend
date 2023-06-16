@@ -14,7 +14,7 @@ export default function Home() {
       </Head>
       <main>
         <Navbar />
-        <Flex  mx="auto" maxW="6xl" justify='space-between'>
+        <Flex mx="auto" maxW="6xl" justify="space-between">
           <Box pt="36">
             <Heading size="2xl">E-Prescribe</Heading>
             <Text mt={8} textColor="GrayText" maxW="400px">
@@ -25,15 +25,10 @@ export default function Home() {
             </Text>
 
             <Flex mt={4} gap={4}>
-              <Button as={Link} href="/login" colorScheme="green">
+              <Button as={Link} href="/login">
                 Login
               </Button>
-              <Button
-                as={Link}
-                href="/register"
-                colorScheme="green"
-                variant="outline"
-              >
+              <Button as={Link} href="/register" variant="outline">
                 SignUp
               </Button>
             </Flex>

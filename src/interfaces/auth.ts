@@ -4,6 +4,8 @@ export interface TRegister {
   firstName: string;
   lastName: string;
   password: string;
+  isDoc: boolean;
+  age: number;
 }
 
 export interface TUser {

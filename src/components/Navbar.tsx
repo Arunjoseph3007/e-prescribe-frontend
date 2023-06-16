@@ -4,7 +4,6 @@ import {
   Button,
   useDisclosure,
   Heading,
-  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -18,16 +17,10 @@ export default function Navbar() {
           E-Prescribe
         </Heading>
         <Flex gap={3}>
-          <Button as={Link} href="/login" rounded="full" colorScheme="green">
+          <Button as={Link} href="/login" rounded="full">
             login
           </Button>
-          <Button
-            as={Link}
-            href="/register"
-            rounded="full"
-            colorScheme="green"
-            variant="outline"
-          >
+          <Button as={Link} href="/register" rounded="full" variant="outline">
             Signup
           </Button>
         </Flex>

@@ -1,5 +1,11 @@
 import { ReactNode } from "react";
-import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  extendTheme,
+  withDefaultColorScheme,
+} from "@chakra-ui/react";
+
+const theme = extendTheme(withDefaultColorScheme({ colorScheme: "green" }));
 
 export default function ChakraUIProvider({
   children,
@@ -8,6 +14,7 @@ export default function ChakraUIProvider({
 }) {
   return (
     <ChakraProvider
+      theme={theme}
       toastOptions={{
         defaultOptions: { position: "bottom-right", isClosable: true },
       }}

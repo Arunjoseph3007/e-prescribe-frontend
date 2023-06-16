@@ -27,6 +27,7 @@ export default function AuthContextProvider({
         process.env.NEXT_PUBLIC_BACKEND + "/accounts/login/",
         p
       );
+      if (!res.data.token) throw new Error("Invalid Credentials");
       return res.data;
     },
     {
@@ -47,7 +48,7 @@ export default function AuthContextProvider({
       onError: () => {
         toast({
           status: "error",
-          title: "Something went wrong",
+          title: "Invalid Credentials",
         });
         localStorage.removeItem("token");
         setUser(null);
@@ -66,10 +67,15 @@ export default function AuthContextProvider({
           email: p.email,
           first_name: p.firstName,
           last_name: p.lastName,
-          user_name: p.userName,
+          username: p.userName,
           password: p.password,
+          age: p.age,
+          is_doctor: p.isDoc,
         }
       );
+      if (!res.data.old_token) {
+        throw res.data;
+      }
       return res.data;
     },
     {
@@ -77,14 +83,30 @@ export default function AuthContextProvider({
         toast({
           status: "success",
           title: "Successfully registered",
+          description: "Check email to verify your account",
         });
         router.push("/login");
       },
-      onError: () => {
-        toast({
-          status: "error",
-          title: "Something went wrong",
-        });
+      onError: (e: any, data) => {
+        if (e.email) {
+          toast({
+            status: "error",
+            title: "Email already exists",
+            description: `User with email ${data.email} already exists`,
+          });
+        } else if (e.username) {
+          toast({
+            status: "error",
+            title: "User already exists",
+            description: `User with userName ${data.userName} already exists`,
+          });
+        } else {
+          toast({
+            status: "error",
+            title: "Something went wrong",
+            description: "Make sure you entered details properly",
+          });
+        }
       },
       onSettled: () => {
         setLoading(false);

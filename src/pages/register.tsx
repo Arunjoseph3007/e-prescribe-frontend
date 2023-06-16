@@ -38,7 +38,7 @@ export default function Register() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    register(formState);
+    register({ ...formState, isDoc });
   };
 
   return (
@@ -119,7 +119,6 @@ export default function Register() {
                   <Tooltip label="Doctor">
                     <Button
                       flex={1}
-                      colorScheme="green"
                       variant={isDoc ? "solid" : "outline"}
                       onClick={(e) => setisDoc(true)}
                     >
@@ -129,7 +128,6 @@ export default function Register() {
                   <Tooltip label="User">
                     <Button
                       flex={1}
-                      colorScheme="green"
                       variant={!isDoc ? "solid" : "outline"}
                       onClick={(e) => setisDoc(false)}
                     >
@@ -176,13 +174,7 @@ export default function Register() {
                 />
               </InputGroup>
             </FormControl>
-            <Button
-              isLoading={loading}
-              type="submit"
-              my={1}
-              w="full"
-              colorScheme="green"
-            >
+            <Button isLoading={loading} type="submit" my={1} w="full">
               Create Account
             </Button>
           </Box>
