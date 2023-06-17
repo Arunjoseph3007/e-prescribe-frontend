@@ -41,7 +41,7 @@ export default function doctor() {
                     <Input
                         rounded="full"
                         pr='4.5rem'
-                        placeholder="Enter Patient's name to search"
+                        placeholder="Enter Patient&apos;s name to search"
                     />
                     <InputRightElement width='5.5rem'>
                         <Button h='1.75rem' size='sm' bg='gray.250' rounded="full">
@@ -59,7 +59,7 @@ export default function doctor() {
             <PatientBox />
             <PatientBox />
             <PatientBox />      
-            
+
         </div>
     )
 }
