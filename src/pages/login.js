@@ -68,7 +68,7 @@ export default function Login() {
               />
             </InputGroup>
           </FormControl>
-          <Text mb={6} color="grey">Doesn't have an account yet? <Link color="green" href="/register">Sign Up</Link></Text>
+          <Text mb={6} color="grey">Doesn&apos;t have an account yet? <Link color="green" href="/register">Sign Up</Link></Text>
           <Button type="submit" my={2} w="full" colorScheme="green">
             Login
           </Button>
