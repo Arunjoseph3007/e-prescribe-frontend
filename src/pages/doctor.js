@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import Navbar from '@/components/Navbar';
-import PatientBox from "../components/patientBox";
+import PatientBox from "../components/PatientBox";
 
 
 export default function doctor() {
