@@ -1,5 +1,5 @@
-import Dosage from "@/components/Dosage";
 import Navbar from "@/components/Navbar";
+import PrescriptionTable from "@/components/PrescriptionTable";
 import { PrescriptionState } from "@/interfaces/prescription";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import {
@@ -18,16 +18,10 @@ import {
   TagRightIcon,
   HStack,
   InputRightAddon,
-  Text,
-  Center,
-  Tooltip,
-  Editable,
-  EditableInput,
-  EditablePreview,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { useImmer } from "use-immer";
 
 const emptyPrescription: PrescriptionState = {
@@ -42,13 +36,16 @@ const emptyPrescription: PrescriptionState = {
 
 export default function NewSession() {
   const router = useRouter();
-  const [newSymptom,setNewSymptom]=useState('')
-  const [symptoms, setSymptoms] = useState<string[]>([
-    "cough",
-    "fever",
-    "Diarrhea",
+  const [newSymptom, setNewSymptom] = useState("");
+  const [desc, setDesc] = useState("");
+  const [symptoms, setSymptoms] = useState<string[]>([]);
+  const [presciptions, setPrescriptions] = useImmer<PrescriptionState[]>([
+    emptyPrescription,
   ]);
-  const [presciptions, setPrescriptions] = useImmer<PrescriptionState[]>([]);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <main>
@@ -62,11 +59,12 @@ export default function NewSession() {
 
         {/* //` New session form */}
         <Box mx="auto" maxW="4xl">
-          <Heading>Add New Session</Heading>
+          <Heading px={3}>Add New Session</Heading>
           <Divider />
 
           <Box
             as="form"
+            onSubmit={handleSubmit}
             my={4}
             mb={32}
             p={3}
@@ -79,20 +77,33 @@ export default function NewSession() {
             <FormControl my={3} isRequired>
               <FormLabel>Description</FormLabel>
               <InputGroup>
-                <Textarea rows={5} placeholder="Enter Description" />
+                <Textarea
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+                  rows={5}
+                  placeholder="Enter Description"
+                />
               </InputGroup>
             </FormControl>
 
             <FormControl my={3} isRequired>
               <FormLabel>Symptoms</FormLabel>
               <InputGroup>
-                <Input placeholder="Eg. cough" />
+                <Input
+                  value={newSymptom}
+                  onChange={(e) => setNewSymptom(e.target.value)}
+                  placeholder="Eg. cough"
+                />
                 <InputRightAddon
                   cursor="pointer"
                   textColor={"white"}
                   fontWeight={"bold"}
                   bgColor={"green.400"}
-                  onClick={()=>setSymptoms(prev=>[...prev])}
+                  onClick={() => {
+                    if (!newSymptom) return;
+                    setSymptoms((prev) => [...prev, newSymptom]);
+                    setNewSymptom("");
+                  }}
                 >
                   <AddIcon mr={3} />
                   Add
@@ -100,12 +111,17 @@ export default function NewSession() {
               </InputGroup>
             </FormControl>
 
-            <HStack my={3}>
+            <HStack wrap="wrap" my={3}>
               {symptoms.map((symptom, i) => (
                 <Tag size="lg" key={i}>
                   <TagLabel>{symptom}</TagLabel>
-                  <TagRightIcon>
-                    <AddIcon />
+                  <TagRightIcon
+                    cursor={"pointer"}
+                    onClick={() =>
+                      setSymptoms((prev) => prev.filter((_, idx) => idx != i))
+                    }
+                  >
+                    <CloseIcon />
                   </TagRightIcon>
                 </Tag>
               ))}
@@ -114,78 +130,10 @@ export default function NewSession() {
             {/* //` Prescription */}
             <FormControl my={3}>
               <FormLabel>Prescriptions</FormLabel>
-              <Box rounded="md" border={"2px"} borderColor={"gray.100"}>
-                <Flex
-                  borderBottom={"1px"}
-                  borderColor={"blackAlpha.200"}
-                  p={3}
-                  px={4}
-                  color={""}
-                  fontSize={"sm"}
-                >
-                  <Heading size="sm" flex={1}>
-                    Medicine
-                  </Heading>
-                  <Heading w={28} size="sm">
-                    Days
-                  </Heading>
-                  <Heading textAlign="center" w={200} size="sm">
-                    Dosage
-                  </Heading>
-                  <Heading textAlign={"center"} w={"28"} size="sm">
-                    Action
-                  </Heading>
-                </Flex>
-
-                {presciptions.map((presciption, i) => (
-                  <Flex
-                    color="blackAlpha.600"
-                    alignItems="center"
-                    borderBottom={"1px"}
-                    borderColor={"blackAlpha.200"}
-                    fontWeight={"bold"}
-                    key={i}
-                    p={1}
-                    px={4}
-                    fontSize={"sm"}
-                  >
-                    <Editable
-                      onChange={(val) =>
-                        setPrescriptions((state) => {
-                          state[i].medicine = val;
-                        })
-                      }
-                      placeholder="Enter"
-                      pr={4}
-                      value={presciption.medicine.toUpperCase()}
-                      flex={1}
-                    >
-                      <EditablePreview />
-                      <EditableInput />
-                    </Editable>
-                    <Text w={28}>{presciption.days}</Text>
-                    <Text w={200}>
-                      <Center>
-                        <Dosage dosage={presciption.dosage} />
-                      </Center>
-                    </Text>
-                    <Center w={28}>
-                      <Tooltip label="Remove">
-                        <Button
-                          onClick={() =>
-                            setPrescriptions((prev) =>
-                              prev.filter((_, idx) => i != idx)
-                            )
-                          }
-                          variant={"ghost"}
-                        >
-                          <CloseIcon />
-                        </Button>
-                      </Tooltip>
-                    </Center>
-                  </Flex>
-                ))}
-              </Box>
+              <PrescriptionTable
+                presciptions={presciptions}
+                setPrescriptions={setPrescriptions}
+              />
               <Button
                 onClick={() => {
                   setPrescriptions((prev) => {
@@ -199,6 +147,17 @@ export default function NewSession() {
                 New Prescription
               </Button>
             </FormControl>
+
+            {/* //` Submit */}
+            <Divider />
+            <Flex gap={2} my={3}>
+              <Button flex={1} variant={"outline"}>
+                Cancel
+              </Button>
+              <Button type="submit" flex={1}>
+                Submit
+              </Button>
+            </Flex>
           </Box>
         </Box>
       </Box>
