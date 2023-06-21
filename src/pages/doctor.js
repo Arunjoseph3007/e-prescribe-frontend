@@ -13,7 +13,6 @@ import {
 
 import Navbar from '@/components/Navbar';
 import PatientBox from "../components/PatientBox";
-import doctorPatientList from "../controllers/doctorPatientList";
 
 export default function doctor() {
     return (
