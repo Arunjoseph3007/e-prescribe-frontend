@@ -1,32 +1,44 @@
-import { Button, Flex, Heading, Input, Text, Link, FormControl, FormLabel, InputGroup, Box, InputLeftElement } from '@chakra-ui/react'
-import { EmailIcon } from '@chakra-ui/icons'
+import {
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Text,
+  Link,
+  FormControl,
+  FormLabel,
+  InputGroup,
+  Box,
+  InputLeftElement,
+} from "@chakra-ui/react";
+import { EmailIcon } from "@chakra-ui/icons";
 
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Login() {
   const [formState, setFormState] = useState({
-    email:"",
-    password:""
+    email: "",
+    password: "",
   });
+  const { login } = useAuth();
 
   const handleChange = (e) => {
-    setFormState((prev)=>({
-      ...prev, [e.target.name] : e.target.value
-    }))
-  }
+    setFormState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-  }
-  
+
+    login(formState.email, formState.password);
+  };
 
   return (
     <div>
-      <Flex
-        h="100vh"
-        justify="center"
-        alignItems="center"
-      >
+      <Flex h="100vh" justify="center" alignItems="center">
         <Box
           onSubmit={handleSubmit}
           my={24}
@@ -68,13 +80,17 @@ export default function Login() {
               />
             </InputGroup>
           </FormControl>
-          <Text mb={6} color="grey">Doesn&apos;t have an account yet? <Link color="green" href="/register">Sign Up</Link></Text>
+          <Text mb={6} color="grey">
+            Doesn&apos;t have an account yet?{" "}
+            <Link color="green" href="/register">
+              Sign Up
+            </Link>
+          </Text>
           <Button type="submit" my={2} w="full" colorScheme="green">
             Login
           </Button>
         </Box>
-
       </Flex>
     </div>
-  )
+  );
 }
