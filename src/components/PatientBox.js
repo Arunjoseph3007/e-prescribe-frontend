@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
-export default function PatientBox() {
+export default function PatientBox(props) {
     return (
         <div>
             <Flex
@@ -23,10 +23,10 @@ export default function PatientBox() {
             >
                 <Box flex={1}>
                     <Heading fontWeight={"medium"} size="md">
-                        Name: Nitesh Bhalala
+                        Name: {props.name}
                     </Heading>
                     <Heading fontWeight={"medium"} size="md">
-                        Age:20
+                        Age:{props.age}
                     </Heading>
                 </Box>
                 <Link href="#">

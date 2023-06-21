@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 
 import Navbar from '@/components/Navbar';
-import PatientBox from "../components/patientBox";
-
+import PatientBox from "../components/PatientBox";
+import doctorPatientList from "../controllers/doctorPatientList";
 
 export default function doctor() {
     return (
@@ -53,12 +53,15 @@ export default function doctor() {
                 <Button width="4.5vw" ml={8} rounded="full" ><AddIcon /></Button>
             </Flex>
 
-            <PatientBox />
-            <PatientBox />
-            <PatientBox />
-            <PatientBox />
-            <PatientBox />
-            <PatientBox />      
+            {doctorPatientList.map((val, id)=>{
+                return (
+                    <PatientBox 
+                        key={id}
+                        name={val.name}
+                        age={val.age}
+                    />
+                )
+            })}  
 
         </div>
     )
