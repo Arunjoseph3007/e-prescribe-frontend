@@ -5,14 +5,15 @@ import {
     Flex,
     Heading,
     Link,
-    InputGroup, 
-    Input, 
-    InputRightElement, 
-    Button 
+    InputGroup,
+    Input,
+    InputRightElement,
+    Button
 } from "@chakra-ui/react";
 
 import Navbar from '@/components/Navbar';
 import PatientBox from "../components/PatientBox";
+import doctorPatientList from "../controllers/doctorPatientList";
 
 export default function doctor() {
     return (
@@ -52,15 +53,15 @@ export default function doctor() {
                 <Button width="4.5vw" ml={8} rounded="full" ><AddIcon /></Button>
             </Flex>
 
-            {doctorPatientList.map((val, id)=>{
+            {doctorPatientList.map((val, id) => {
                 return (
-                    <PatientBox 
+                    <PatientBox
                         key={id}
                         name={val.name}
                         age={val.age}
                     />
                 )
-            })}  
+            })}
 
         </div>
     )
