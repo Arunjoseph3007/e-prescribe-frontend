@@ -13,7 +13,7 @@ const getToken = () => {
   if (typeof window == "undefined") return "";
 
   const token = localStorage?.getItem("token");
-  if (token) return `Token ${token}`;
+  if (token) return `token ${token}`;
 
   return "";
 };
