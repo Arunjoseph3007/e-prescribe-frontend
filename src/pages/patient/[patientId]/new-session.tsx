@@ -18,11 +18,21 @@ import {
   TagRightIcon,
   HStack,
   InputRightAddon,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  RangeSlider,
+  RangeSliderTrack,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FormEventHandler, useState } from "react";
 import { useImmer } from "use-immer";
+import { MdGraphicEq } from "react-icons/md";
+import { FaThermometerEmpty } from "react-icons/fa";
 
 const emptyPrescription: PrescriptionState = {
   medicine: "",
@@ -126,6 +136,56 @@ export default function NewSession() {
                 </Tag>
               ))}
             </HStack>
+
+            <Flex gap={3}>
+              <FormControl my={3} isRequired>
+                <FormLabel>Temperature</FormLabel>
+                <InputGroup>
+                  <Slider aria-label="slider-ex-4" defaultValue={30}>
+                    <SliderTrack bg="green.100">
+                      <SliderFilledTrack bg="green" />
+                    </SliderTrack>
+                    <SliderThumb boxSize={6}>
+                      <Box color="green" as={FaThermometerEmpty} />
+                    </SliderThumb>
+                  </Slider>
+                </InputGroup>
+              </FormControl>
+
+              <FormControl my={3} isRequired>
+                <FormLabel>Blood Pressure</FormLabel>
+                <InputGroup>
+                  <RangeSlider
+                    aria-label={["min", "max"]}
+                    defaultValue={[30, 80]}
+                  >
+                    <RangeSliderTrack bg="green.100">
+                      <RangeSliderFilledTrack bg="green" />
+                    </RangeSliderTrack>
+                    <RangeSliderThumb boxSize={6} index={0}>
+                      <Box color="green" as={MdGraphicEq} />
+                    </RangeSliderThumb>
+                    <RangeSliderThumb boxSize={6} index={1}>
+                      <Box color="green" as={MdGraphicEq} />
+                    </RangeSliderThumb>
+                  </RangeSlider>
+                </InputGroup>
+              </FormControl>
+
+              <FormControl my={3} isRequired>
+                <FormLabel>Blood sugar level</FormLabel>
+                <InputGroup>
+                  <Slider aria-label="slider-ex-4" defaultValue={30}>
+                    <SliderTrack bg="green.100">
+                      <SliderFilledTrack bg="green" />
+                    </SliderTrack>
+                    <SliderThumb boxSize={6}>
+                      <Box color="green" as={MdGraphicEq} />
+                    </SliderThumb>
+                  </Slider>
+                </InputGroup>
+              </FormControl>
+            </Flex>
 
             {/* //` Prescription */}
             <FormControl my={3}>

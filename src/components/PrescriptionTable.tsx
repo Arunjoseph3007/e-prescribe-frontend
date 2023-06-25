@@ -98,7 +98,7 @@ export default function PrescriptionTable({
               </NumberInputStepper>
             </NumberInput>
           </Box>
-          <Text w={200}>
+          <Box w={200}>
             <Center>
               <Dosage
                 editable
@@ -120,7 +120,7 @@ export default function PrescriptionTable({
                 }
               />
             </Center>
-          </Text>
+          </Box>
           <Center w={28}>
             <Tooltip label="Remove">
               <Button
