@@ -44,7 +44,7 @@ export default function doctor() {
                         placeholder="Enter Patient&apos;s name to search"
                     />
                     <InputRightElement width='5.5rem'>
-                        <Button h='1.75rem' size='sm' bg='gray.250' rounded="full">
+                        <Button h='1.75rem' size='sm' bg='grey.250' rounded="full">
                             Search
                         </Button>
                     </InputRightElement>

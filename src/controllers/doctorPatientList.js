@@ -5,32 +5,32 @@ const doctorPatientList = [
         age: 20
     },
     {
-        id:0,
+        id:1,
         name: "Nitesh Bhalala",
         age: 20
     },
     {
-        id:0,
+        id:2,
         name: "Nitesh Bhalala",
         age: 20
     },
     {
-        id:0,
+        id:3,
         name: "Nitesh Bhalala",
         age: 20
     },
     {
-        id:0,
+        id:4,
         name: "Nitesh Bhalala",
         age: 20
     },
     {
-        id:0,
+        id:5,
         name: "Nitesh Bhalala",
         age: 20
     },
     {
-        id:0,
+        id:6,
         name: "Nitesh Bhalala",
         age: 20
     }

@@ -13,9 +13,34 @@ import {
     Heading,
     Link,
     Center,
-    Divider, Table, Tbody, Tr, Td
+    Divider,
+    Collapse
 } from '@chakra-ui/react'
 import Dosage from '@/components/Dosage';
+import { useState } from 'react';
+
+const sessions = [
+    {
+        id: 0,
+        date: "20/06/23",
+        symptoms: ["Headache", "Fatigue", "Nausea", "Stomachache"]
+    },
+    {
+        id: 1,
+        date: "10/06/23",
+        symptoms: ["Breathing Problems", "Fever"]
+    },
+    {
+        id: 2,
+        date: "26/05/23",
+        symptoms: ["Indigestion", "Vomiting", "Nausea", "Gas"]
+    },
+    {
+        id: 3,
+        date: "13/04/23",
+        symptoms: ["Cough", "Fatigue", "Swelling"]
+    },
+]
 
 const presciptions = [
     {
@@ -23,9 +48,9 @@ const presciptions = [
         medName: "Paracetamol",
         days: 5,
         dosage: {
-            morning:1,
-            afternoon:-1,
-            evening:1
+            morning: 1,
+            afternoon: -1,
+            evening: 1
         }
     },
     {
@@ -33,24 +58,34 @@ const presciptions = [
         medName: "Ibuprofen",
         days: 3,
         dosage: {
-            morning:1,
-            afternoon:0,
-            evening:1
+            morning: 1,
+            afternoon: 0,
+            evening: 1
         }
     },
     {
-        id: 3,
+        id: 2,
         medName: "Amlodipine",
         days: 6,
         dosage: {
-            morning:1,
-            afternoon:0,
-            evening:1
+            morning: 1,
+            afternoon: 0,
+            evening: 1
         }
     },
 ]
 
 export default function prescribe() {
+
+    const [expandedPanels, setExpandedPanels] = useState([]);
+    const togglePanel = (panelIndex) => {
+        if (expandedPanels.includes(panelIndex)) {
+            setExpandedPanels(expandedPanels.filter((index) => index !== panelIndex));
+        } else {
+            setExpandedPanels([...expandedPanels, panelIndex]);
+        }
+    };
+
     return (
         <main>
             <Navbar />
@@ -108,152 +143,101 @@ export default function prescribe() {
                 >
                     <Box flex={1}>
                         <Box>
-                            <Accordion allowToggle allowMultiple>
-                                <AccordionItem border="none">
-                                    <h2>
-                                        <AccordionButton>
-                                            <Box as="span" flex='1' textAlign='left'>
-                                                {/* <Flex alignItems="center"> */}
-                                                <Heading fontWeight={"medium"} size="md" mt={4}>
-                                                    <Text>Date: 20/06/23</Text>
-                                                </Heading>
-                                                <Heading fontWeight={"medium"} size="md" my={4} >
-                                                    <Text>Symptoms:
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Headache</Tag>
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Stomachache</Tag>
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Fatigue</Tag>
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Nausea</Tag>
-                                                    </Text>
-                                                </Heading>
-                                                {/* </Flex> */}
-                                            </Box>
-                                            <AccordionIcon />
-                                        </AccordionButton>
-                                    </h2>
-                                    <AccordionPanel pb={4} >
-                                        <Heading fontWeight={"medium"} size="md" mt={4}>Prescription: </Heading>
-                                        {/* <Box display="flex" alignItems="center">
-                                            <Text pr="50px">Paracetamol</Text>
-                                            <Box>5</Box>
-                                            <Text pl="50px">1-0-1</Text>
-                                        </Box> */}
-                                        <Table variant="simple">
-                                            <Tbody>
-                                                <Tr>
-                                                    <Td>Paracetamol</Td>
-                                                    <Td>2</Td>
-                                                    <Td>1-1-1</Td>
-                                                </Tr>
-                                                <Tr>
-                                                    <Td>Ibuprofen</Td>
-                                                    <Td>5</Td>
-                                                    <Td>1-0-1</Td>
-                                                </Tr>
-                                                <Tr>
-                                                    <Td>Amoxicillin</Td>
-                                                    <Td>4</Td>
-                                                    <Td>0-0-1</Td>
-                                                </Tr>
-                                                {/* Add more rows as needed */}
-                                            </Tbody>
-                                        </Table>
-                                    </AccordionPanel>
-                                </AccordionItem>
+                            <Accordion allowMultiple>
 
-                                <Divider />
+                                {sessions.map((val, index) => {
+                                    return (
+                                        <>
+                                            <AccordionItem border="none" key={index}>
+                                                <h2>
+                                                    <AccordionButton onClick={() => togglePanel(index)}>
+                                                        <Box as="span" flex='1' textAlign='left'>
+                                                            {/* <Flex alignItems="center"> */}
+                                                            <Heading fontWeight={"medium"} size="md" mt={4}>
+                                                                <Text>Date: {val.date}</Text>
+                                                            </Heading>
+                                                            <Heading fontWeight={"medium"} size="md" my={4} >
+                                                                <Text>Symptoms:
+                                                                    {val.symptoms.map((sym, ind) => {
+                                                                        return (
+                                                                            <>
+                                                                                <Tag key={ind} size='md' mb={3} variant='solid' mx={2} colorScheme='teal'>{sym}</Tag>
+                                                                            </>
+                                                                        )
+                                                                    })}
+                                                                </Text>
+                                                            </Heading>
+                                                            {/* </Flex> */}
 
-                                <AccordionItem border="none">
-                                    <h2>
-                                        <AccordionButton>
-                                            <Box as="span" flex='1' textAlign='left'>
-                                                {/* <Flex alignItems="center"> */}
-                                                <Heading fontWeight={"medium"} size="md" mt={4}>
-                                                    <Text>Date: 10/05/23</Text>
-                                                </Heading>
-                                                <Heading fontWeight={"medium"} size="md" my={4} >
-                                                    <Text>Symptoms:
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Headache</Tag>
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Stomachache</Tag>
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Fatigue</Tag>
-                                                        <Tag size='md' variant='solid' mx={2} colorScheme='teal'>Nausea</Tag>
-                                                    </Text>
-                                                </Heading>
-                                                {/* </Flex> */}
+                                                        </Box>
+                                                        <AccordionIcon />
+                                                    </AccordionButton>
+                                                </h2>
+                                                <Collapse in={expandedPanels.includes(index)}></Collapse>
+                                                <AccordionPanel pb={4} >
+                                                    <Heading fontWeight={"medium"} size="md" mb="2">Prescription: </Heading>
+                                                    <Box rounded="md" border={"2px"} borderColor={"gray.100"}>
+                                                        <Flex
+                                                            borderBottom={"1px"}
+                                                            borderColor={"blackAlpha.200"}
+                                                            p={4}
+                                                            px={4}
+                                                            color={""}
+                                                            fontSize={"sm"}
+                                                        >
+                                                            <Heading size="sm" w="40%" >
+                                                                Medicine
+                                                            </Heading>
+                                                            <Heading w="30%" size="sm">
+                                                                <Center>Days</Center>
+                                                            </Heading>
+                                                            <Heading textAlign="center" w="30%" size="sm">
+                                                                Dosage
+                                                            </Heading>
+                                                        </Flex>
 
-                                            </Box>
-                                            <AccordionIcon />
-                                        </AccordionButton>
-                                    </h2>
-                                    <AccordionPanel pb={4} >
-                                        <Heading fontWeight={"medium"} size="md" mb="2">Prescription: </Heading>
-                                        <Box rounded="md" border={"2px"} borderColor={"gray.100"}>
-                                            <Flex
-                                                borderBottom={"1px"}
-                                                borderColor={"blackAlpha.200"}
-                                                p={3}
-                                                px={4}
-                                                color={""}
-                                                fontSize={"sm"}
-                                            >
-                                                <Heading size="sm" flex={1}>
-                                                    Medicine
-                                                </Heading>
-                                                <Heading w={28} size="sm">
-                                                    <Center>Days</Center>
-                                                </Heading>
-                                                <Heading textAlign="center" w={200} size="sm">
-                                                    Dosage
-                                                </Heading>
-                                            </Flex>
-
-                                            {presciptions.map((presciption, i) => (
-                                                <Flex
-                                                    color="blackAlpha.600"
-                                                    alignItems="center"
-                                                    borderBottom={"1px"}
-                                                    borderColor={"blackAlpha.200"}
-                                                    fontWeight={"bold"}
-                                                    key={i}
-                                                    p={1}
-                                                    px={4}
-                                                    fontSize={"sm"}
-                                                >
-                                                    <Box
-                                                        pr={4}
-                                                        flex={1}
-                                                    >
-                                                        {presciption.medName}
+                                                        {presciptions.map((presciption, i) => {
+                                                            return (
+                                                                <Flex
+                                                                    color="blackAlpha.600"
+                                                                    alignItems="center"
+                                                                    borderBottom={"1px"}
+                                                                    borderColor={"blackAlpha.200"}
+                                                                    fontWeight={"bold"}
+                                                                    key={i}
+                                                                    p={3}
+                                                                    px={4}
+                                                                    fontSize={"sm"}
+                                                                >
+                                                                    <Box
+                                                                        w="40%"
+                                                                    // pr={4}
+                                                                    // flex={1}
+                                                                    >
+                                                                        {presciption.medName}
+                                                                    </Box>
+                                                                    <Box w="30%">
+                                                                        <Center>{presciption.days}</Center>
+                                                                    </Box>
+                                                                    <Box w="30%">
+                                                                        <Center>
+                                                                            <Dosage
+                                                                                dosage={presciption.dosage}
+                                                                            />
+                                                                        </Center>
+                                                                    </Box>
+                                                                </Flex>
+                                                            )
+                                                        }
+                                                        )}
                                                     </Box>
-                                                    <Box w={28}>
-                                                        <Center>{presciption.days}</Center>
-                                                    </Box>
-                                                    <Box w={200}>
-                                                        <Center>
-                                                            <Dosage
-                                                                dosage={presciption.dosage}
-                                                                // onMorning={(no) =>
-                                                                //     setPrescriptions((p) => {
-                                                                //         p[i].dosage.morning = no;
-                                                                //     })
-                                                                // }
-                                                                // onAfternoon={(no) =>
-                                                                //     setPrescriptions((p) => {
-                                                                //         p[i].dosage.afternoon = no;
-                                                                //     })
-                                                                // }
-                                                                // onEvening={(no) =>
-                                                                //     setPrescriptions((p) => {
-                                                                //         p[i].dosage.evening = no;
-                                                                //     })
-                                                                // }
-                                                            />
-                                                        </Center>
-                                                    </Box>
-                                                </Flex>
-                                            ))}
-                                        </Box>
-                                    </AccordionPanel>
-                                </AccordionItem>
+                                                </AccordionPanel>
+                                            </AccordionItem>
+                                            <Divider />
+                                        </>
+                                    )
+                                })}
+
 
                             </Accordion>
                         </Box>
