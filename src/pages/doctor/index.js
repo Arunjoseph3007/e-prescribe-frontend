@@ -110,7 +110,7 @@ export default function Doctor() {
                   p={3}
                   key={result.id}
                 >
-                  <Link href={`/patient/${result.id}`}>
+                  <Link href={`/doctor/patient/${result.userName}`}>
                     <Box>
                       <Text fontSize="md" fontWeight="medium">
                         {result.firstName} {result.lastName}

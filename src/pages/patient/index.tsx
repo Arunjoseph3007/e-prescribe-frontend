@@ -156,7 +156,7 @@ export default function HomePage() {
                       </HStack>
                     </Box>
 
-                    <Link href="#">
+                    <Link href={`/patient/doctor/${doctor.id}`}>
                       <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
                     </Link>
                   </Flex>
@@ -195,7 +195,7 @@ export default function HomePage() {
                         </Text>
                       </Flex>
                     </Box>
-                    <Link href={`/session/${session.id}`}>
+                    <Link href={`patient/session/${session.id}`}>
                       <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
                     </Link>
                   </Flex>

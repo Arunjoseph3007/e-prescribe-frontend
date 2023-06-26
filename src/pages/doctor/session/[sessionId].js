@@ -75,7 +75,7 @@ const presciptions = [
     },
 ]
 
-export default function prescribe() {
+export default function Prescribe() {
 
     const [expandedPanels, setExpandedPanels] = useState([]);
     const togglePanel = (panelIndex) => {
