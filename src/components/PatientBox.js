@@ -29,7 +29,7 @@ export default function PatientBox(props) {
                         Age:{props.age}
                     </Heading>
                 </Box>
-                <Link href="#">
+                <Link href={`/doctor/patient/${props.username}`}>
                     <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
                 </Link>
             </Flex>

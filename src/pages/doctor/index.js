@@ -18,8 +18,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
-import PatientBox from "../components/PatientBox";
-import doctorPatientList from "../controllers/doctorPatientList";
+import PatientBox from "@/components/PatientBox";
+import doctorPatientList from "@/controllers/doctorPatientList";
 import { useState } from "react";
 import { PatientController } from "@/controllers/patients";
 import { useQuery } from "@tanstack/react-query";
@@ -86,7 +86,7 @@ export default function Doctor() {
       </Flex>
 
       {doctorPatientList.map((val, id) => {
-        return <PatientBox key={id} name={val.name} age={val.age} />;
+        return <PatientBox username={val.username} key={id} name={val.name} age={val.age} />;
       })}
 
       <Modal isOpen={isOpen} onClose={onClose}>
