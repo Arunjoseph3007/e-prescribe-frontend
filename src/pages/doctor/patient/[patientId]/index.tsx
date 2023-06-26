@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -27,6 +28,9 @@ export default function PatientSessions() {
 
   return (
     <main>
+      <Head>
+        <title>Session | {router.query.patientId}</title>
+      </Head>
       <Navbar />
       <Box maxW="6xl" mx="auto">
         {/* //` STATS */}

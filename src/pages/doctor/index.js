@@ -19,7 +19,6 @@ import {
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import PatientBox from "@/components/PatientBox";
-import doctorPatientList from "@/controllers/doctorPatientList";
 import { useState } from "react";
 import { PatientController } from "@/controllers/patients";
 import { useQuery } from "@tanstack/react-query";
@@ -44,7 +43,6 @@ export default function Doctor() {
       <Box
         maxW="6xl"
         mx="auto"
-        // bg="rgb(220, 224, 220)"
         bg="gray.200"
         h="120px"
         w="75vw"
@@ -55,7 +53,6 @@ export default function Doctor() {
         borderRadius="10px"
         mt="40px"
       >
-        {/* <Box h="56" my={4} rounded="md" bg="gray.200"><Heading textAlign="center">Dr. Anil Shah</Heading></Box> */}
         <Heading textAlign="center">Dr. Anil Shah</Heading>
       </Box>
 
@@ -85,9 +82,17 @@ export default function Doctor() {
         </Button>
       </Flex>
 
-      {doctorPatientList.map((val, id) => {
-        return <PatientBox username={val.username} key={id} name={val.name} age={val.age} />;
-      })}
+      {getPatientsQuery.data &&
+        getPatientsQuery.data.map((val, id) => {
+          return (
+            <PatientBox
+              username={val.userName}
+              key={id}
+              name={val.firstName + " " + val.lastName}
+              age={val.age}
+            />
+          );
+        })}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
