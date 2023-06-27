@@ -44,7 +44,7 @@ const emptyPrescription: PrescriptionState = {
   },
 };
 
-export default function NewSession() {
+export default function NewVisit() {
   const router = useRouter();
   const [newSymptom, setNewSymptom] = useState("");
   const [desc, setDesc] = useState("");
@@ -60,7 +60,7 @@ export default function NewSession() {
   return (
     <main>
       <Head>
-        <title>New session</title>
+        <title>Add New Visit</title>
       </Head>
       <Navbar />
       <Box maxW="6xl" mx="auto">
