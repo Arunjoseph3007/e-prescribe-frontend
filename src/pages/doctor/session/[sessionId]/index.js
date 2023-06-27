@@ -23,29 +23,6 @@ import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
 import moment from "moment";
 
-const sessions = [
-  {
-    id: 0,
-    date: "20/06/23",
-    symptoms: ["Headache", "Fatigue", "Nausea", "Stomachache"],
-  },
-  {
-    id: 1,
-    date: "10/06/23",
-    symptoms: ["Breathing Problems", "Fever"],
-  },
-  {
-    id: 2,
-    date: "26/05/23",
-    symptoms: ["Indigestion", "Vomiting", "Nausea", "Gas"],
-  },
-  {
-    id: 3,
-    date: "13/04/23",
-    symptoms: ["Cough", "Fatigue", "Swelling"],
-  },
-];
-
 const presciptions = [
   {
     id: 0,
@@ -86,8 +63,6 @@ export default function Prescribe() {
     queryKey: ["vists"],
     enabled: !!router.query.sessionId,
   });
-
-  console.log(getVisits);
   const [expandedPanels, setExpandedPanels] = useState([]);
   const togglePanel = (panelIndex) => {
     if (expandedPanels.includes(panelIndex)) {
@@ -135,22 +110,18 @@ export default function Prescribe() {
                                 <Heading fontWeight={"medium"} size="md" my={4}>
                                   <Text>
                                     Symptoms:
-                                    {val.symptoms.map((sym, ind) => {
-                                      return (
-                                        <>
-                                          <Tag
-                                            key={ind}
-                                            size="md"
-                                            mb={3}
-                                            variant="solid"
-                                            mx={2}
-                                            colorScheme="teal"
-                                          >
-                                            {sym}
-                                          </Tag>
-                                        </>
-                                      );
-                                    })}
+                                    {val.symptoms.map((sym, ind) => (
+                                      <Tag
+                                        key={ind}
+                                        size="md"
+                                        mb={3}
+                                        variant="solid"
+                                        mx={2}
+                                        colorScheme="teal"
+                                      >
+                                        {sym}
+                                      </Tag>
+                                    ))}
                                   </Text>
                                 </Heading>
                               </Box>
