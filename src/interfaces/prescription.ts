@@ -1,4 +1,5 @@
 export interface PrescriptionState {
+  id?: number;
   medicine: string;
   days: number;
   dosage: DosageState;

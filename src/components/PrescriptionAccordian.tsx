@@ -33,11 +33,12 @@ import {
   FaThermometerEmpty,
 } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
+import { PrescriptionState } from "@/interfaces/prescription";
 
-const presciptions = [
+const presciptions:PrescriptionState[] = [
   {
     id: 0,
-    medName: "Paracetamol",
+    medicine: "Paracetamol",
     days: 5,
     dosage: {
       morning: 1,
@@ -47,7 +48,7 @@ const presciptions = [
   },
   {
     id: 1,
-    medName: "Ibuprofen",
+    medicine: "Ibuprofen",
     days: 3,
     dosage: {
       morning: 1,
@@ -57,7 +58,7 @@ const presciptions = [
   },
   {
     id: 2,
-    medName: "Amlodipine",
+    medicine: "Amlodipine",
     days: 6,
     dosage: {
       morning: 1,
@@ -193,13 +194,7 @@ export default function PrescriptionAccordian({
                   px={4}
                   fontSize={"sm"}
                 >
-                  <Box
-                    w="40%"
-                    // pr={4}
-                    // flex={1}
-                  >
-                    {presciption.medName}
-                  </Box>
+                  <Box w="40%">{presciption.medicine}</Box>
                   <Box w="30%">
                     <Center>{presciption.days}</Center>
                   </Box>
