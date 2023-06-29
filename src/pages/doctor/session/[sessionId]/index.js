@@ -11,10 +11,10 @@ import {
   AccordionIcon,
   Button,
   Heading,
-  Link,
   Center,
   Divider,
   Collapse,
+  Circle,
 } from "@chakra-ui/react";
 import Dosage from "@/components/Dosage";
 import { useState } from "react";
@@ -22,6 +22,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
 import moment from "moment";
+import { AddIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 
 export default function Prescribe() {
   const router = useRouter();
@@ -44,7 +46,28 @@ export default function Prescribe() {
       <Navbar />
       <Box maxW="6xl" mx="auto">
         {/* //` STATS */}
-        <Box h="56" my={4} rounded="md" bg="gray.200"></Box>
+        <Box
+          mb={"24"}
+          position="relative"
+          h="56"
+          my={4}
+          rounded="md"
+          bg="gray.200"
+        >
+          <Box
+            top="100%"
+            left="75%"
+            translateY="-50%"
+            transform="auto"
+            position="absolute"
+          >
+            <Link href={router.asPath + "/new-visit"}>
+              <Circle p={3} color="white" bg="green.400">
+                <AddIcon fontSize="2xl" />
+              </Circle>
+            </Link>
+          </Box>
+        </Box>
 
         <Flex
           mx="auto"
