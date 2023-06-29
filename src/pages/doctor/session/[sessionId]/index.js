@@ -23,39 +23,6 @@ import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
 import moment from "moment";
 
-const presciptions = [
-  {
-    id: 0,
-    medName: "Paracetamol",
-    days: 5,
-    dosage: {
-      morning: 1,
-      afternoon: -1,
-      evening: 1,
-    },
-  },
-  {
-    id: 1,
-    medName: "Ibuprofen",
-    days: 3,
-    dosage: {
-      morning: 1,
-      afternoon: 0,
-      evening: 1,
-    },
-  },
-  {
-    id: 2,
-    medName: "Amlodipine",
-    days: 6,
-    dosage: {
-      morning: 1,
-      afternoon: 0,
-      evening: 1,
-    },
-  },
-];
-
 export default function Prescribe() {
   const router = useRouter();
   const visitsQuery = useQuery({
@@ -159,7 +126,7 @@ export default function Prescribe() {
                                 </Heading>
                               </Flex>
 
-                              {presciptions.map((presciption, i) => {
+                              {val.prescriptions.map((presciption, i) => {
                                 return (
                                   <Flex
                                     color="blackAlpha.600"
@@ -172,12 +139,8 @@ export default function Prescribe() {
                                     px={4}
                                     fontSize={"sm"}
                                   >
-                                    <Box
-                                      w="40%"
-                                      // pr={4}
-                                      // flex={1}
-                                    >
-                                      {presciption.medName}
+                                    <Box w="40%">
+                                      {presciption.medicine.name}
                                     </Box>
                                     <Box w="30%">
                                       <Center>{presciption.days}</Center>

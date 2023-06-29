@@ -1,6 +1,8 @@
+import { Medicine } from "./medicine";
+
 export interface PrescriptionState {
   id?: number;
-  medicine: string;
+  medicine: Medicine;
   days: number;
   dosage: DosageState;
 }

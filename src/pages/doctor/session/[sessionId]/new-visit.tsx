@@ -26,6 +26,7 @@ import {
   RangeSliderTrack,
   RangeSliderFilledTrack,
   RangeSliderThumb,
+  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -33,9 +34,15 @@ import { FormEventHandler, useState } from "react";
 import { useImmer } from "use-immer";
 import { MdGraphicEq } from "react-icons/md";
 import { FaThermometerEmpty } from "react-icons/fa";
+import { useMutation } from "@tanstack/react-query";
+import { postVisit } from "@/controllers/visits";
+import { Visit } from "@/interfaces/visit";
 
 const emptyPrescription: PrescriptionState = {
-  medicine: "",
+  medicine: {
+    id: 0,
+    name: "",
+  },
   days: 1,
   dosage: {
     morning: 0,
@@ -45,6 +52,7 @@ const emptyPrescription: PrescriptionState = {
 };
 
 export default function NewVisit() {
+  const toast = useToast();
   const router = useRouter();
   const [newSymptom, setNewSymptom] = useState("");
   const [desc, setDesc] = useState("");
@@ -52,9 +60,38 @@ export default function NewVisit() {
   const [presciptions, setPrescriptions] = useImmer<PrescriptionState[]>([
     emptyPrescription,
   ]);
+  const [sugar, setSugar] = useState(120);
+  const [bp, setBp] = useState([80, 120]);
+  const [temperature, setTemperature] = useState(37);
+  const createVisitMutation = useMutation({
+    mutationFn: (v: Omit<Visit, "id" | "date">) =>
+      postVisit(v, +(router.query.sessionId as string)),
+    onSuccess: () => {
+      toast({
+        status: "success",
+        title: "Visit added succefully",
+      });
+      router.push(`/doctor/session/${router.query.sessionId}`);
+    },
+    onError: () => {
+      toast({
+        status: "error",
+        title: "OOPS! Something went wrong",
+      });
+    },
+  });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
+    createVisitMutation.mutate({
+      note: desc,
+      symptoms,
+      bloodPressure: `${bp[0]}/${bp[1]}`,
+      sugar,
+      temperature,
+      prescriptions: presciptions.filter((p) => p.medicine.name),
+    });
   };
 
   return (
@@ -96,7 +133,7 @@ export default function NewVisit() {
               </InputGroup>
             </FormControl>
 
-            <FormControl my={3} isRequired>
+            <FormControl my={3}>
               <FormLabel>Symptoms</FormLabel>
               <InputGroup>
                 <Input
@@ -141,7 +178,11 @@ export default function NewVisit() {
               <FormControl my={3} isRequired>
                 <FormLabel>Temperature</FormLabel>
                 <InputGroup>
-                  <Slider aria-label="slider-ex-4" defaultValue={30}>
+                  <Slider
+                    onChange={setTemperature}
+                    aria-label="slider-ex-4"
+                    defaultValue={30}
+                  >
                     <SliderTrack bg="green.100">
                       <SliderFilledTrack bg="green" />
                     </SliderTrack>
@@ -156,8 +197,11 @@ export default function NewVisit() {
                 <FormLabel>Blood Pressure</FormLabel>
                 <InputGroup>
                   <RangeSlider
+                    onChange={setBp}
                     aria-label={["min", "max"]}
-                    defaultValue={[30, 80]}
+                    value={bp}
+                    min={40}
+                    max={300}
                   >
                     <RangeSliderTrack bg="green.100">
                       <RangeSliderFilledTrack bg="green" />
@@ -175,7 +219,11 @@ export default function NewVisit() {
               <FormControl my={3} isRequired>
                 <FormLabel>Blood sugar level</FormLabel>
                 <InputGroup>
-                  <Slider aria-label="slider-ex-4" defaultValue={30}>
+                  <Slider
+                    onChange={setSugar}
+                    aria-label="slider-ex-4"
+                    defaultValue={30}
+                  >
                     <SliderTrack bg="green.100">
                       <SliderFilledTrack bg="green" />
                     </SliderTrack>

@@ -1,3 +1,5 @@
+import { PrescriptionState } from "./prescription";
+
 export interface Visit {
   id: number;
   date: string;
@@ -6,4 +8,5 @@ export interface Visit {
   temperature?: number;
   sugar?: number;
   bloodPressure?: string;
+  prescriptions: PrescriptionState[];
 }
