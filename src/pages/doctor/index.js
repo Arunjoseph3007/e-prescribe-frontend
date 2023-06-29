@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronRightIcon, SearchIcon, CalendarIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -16,6 +16,8 @@ import {
   ModalBody,
   ModalFooter,
   Text,
+  Tooltip,
+  Icon
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import PatientBox from "@/components/PatientBox";
@@ -23,9 +25,11 @@ import { useState } from "react";
 import { PatientController } from "@/controllers/patients";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { FaMedkit } from "react-icons/fa"
 
 export default function Doctor() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const suggestModal = useDisclosure();
   const [query, setQuery] = useState("");
   const getPatientsQuery = useQuery({
     queryFn: PatientController.getPatients,
@@ -36,10 +40,13 @@ export default function Doctor() {
     queryKey: ["patient-search", query],
     enabled: !!(query && isOpen),
   });
+  const [suggestMed, setSuggestMed] = useState("");
+
 
   return (
     <div>
       <Navbar />
+
       <Box
         maxW="6xl"
         mx="auto"
@@ -57,29 +64,33 @@ export default function Doctor() {
       </Box>
 
       <Flex
-        w="75vw"
+        maxW="5xl"
         m="auto"
         mt="40px"
         mb="40px"
-        justifyContent="center"
+        justifyContent="space-between"
         alignItems="center"
       >
-        <InputGroup size="md" w="60vw">
+        {/* <Box display="flex" justifyContent="center" alignItems="left" > */}
+        <InputGroup size="md" w="75vw">
           <Input
             rounded="full"
             pr="4.5rem"
             placeholder="Enter Patient's name to search"
           />
-          <InputRightElement width="5.5rem">
-            <Button h="1.75rem" size="sm" bg="gray.250" rounded="full">
-              Search
-            </Button>
+          <InputRightElement pr={4} cursor="pointer">
+            <SearchIcon />
           </InputRightElement>
         </InputGroup>
 
         <Button onClick={onOpen} width="4.5vw" ml={8} rounded="full">
           <AddIcon />
         </Button>
+        {/* </Box> */}
+
+
+
+
       </Flex>
 
       {getPatientsQuery.data &&
@@ -135,6 +146,75 @@ export default function Doctor() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+
+
+      <Box
+        cursor="pointer"
+        onClick={suggestModal.onOpen}
+        position="fixed"
+        bottom="4"
+        right="6"
+      >
+        {/* <Box position="relative"> */}
+          <Tooltip label="Suggest Medicine" placement='left'>
+            {/* <Box as={CalendarIcon} boxSize={8} color="green" /> */}
+            <CalendarIcon />
+          </Tooltip>
+        {/* </Box> */}
+      </Box>
+
+
+      <Modal isOpen={suggestModal.isOpen} onClose={suggestModal.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Suggest a Medicine</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              onChange={(e) => setSuggestMed(e.target.value)}
+              rounded="full"
+              variant={"filled"}
+              placeholder="Enter name of Medicine"
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button variant='ghost' mr={3} onClick={suggestModal.onClose}>
+              Close
+            </Button>
+            <Button colorScheme='green' >Add</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+
+
+      {/* <Box cursor="pointer" onClick={suggestModal.onOpen} position="fixed" right="5" bottom="5">
+        <Tooltip label='Suggest Medicine' placement='left-start'>
+          <Box color="green" as={FaMedkit} />
+        </Tooltip>
+      </Box>
+      <Modal isOpen={suggestModal.isOpen} onClose={suggestModal.onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Suggest a Medicine</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              onChange={(e) => setSuggestMed(e.target.value)}
+              rounded="full"
+              variant={"filled"}
+              placeholder="Enter name of Medicine"
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button variant='ghost' mr={3} onClick={suggestModal.onClose}>
+              Close
+            </Button>
+            <Button colorScheme='green' >Add</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal> */}
     </div>
   );
 }
