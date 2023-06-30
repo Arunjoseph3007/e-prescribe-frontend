@@ -44,7 +44,7 @@ export default function Prescribe() {
   return (
     <main>
       <Navbar />
-      <Box maxW="6xl" mx="auto">
+      <Box maxW="6xl" minH="100vh" mx="auto">
         {/* //` STATS */}
         <Box
           mb={"24"}
@@ -69,23 +69,23 @@ export default function Prescribe() {
           </Box>
         </Box>
 
-        <Flex
-          mx="auto"
-          maxW="5xl"
-          my={4}
-          p={3}
-          rounded="md"
-          minH="200px"
-          alignItems={"center"}
-          shadow="md"
-          borderWidth={1}
-          borderColor="gray.100"
-        >
-          <Box flex={1}>
-            <Box>
-              <Accordion allowMultiple>
-                {visitsQuery.data &&
-                  visitsQuery.data.map((val, index) => {
+        {visitsQuery.data && visitsQuery.data.length > 0 && (
+          <Flex
+            mx="auto"
+            maxW="5xl"
+            my={4}
+            p={3}
+            rounded="md"
+            minH="200px"
+            alignItems={"center"}
+            shadow="md"
+            borderWidth={1}
+            borderColor="gray.100"
+          >
+            <Box flex={1}>
+              <Box>
+                <Accordion allowMultiple>
+                  {visitsQuery.data.map((val, index) => {
                     return (
                       <>
                         <AccordionItem border="none" key={index}>
@@ -183,10 +183,30 @@ export default function Prescribe() {
                       </>
                     );
                   })}
-              </Accordion>
+                </Accordion>
+              </Box>
             </Box>
-          </Box>
-        </Flex>
+          </Flex>
+        )}
+
+        {visitsQuery.isFetched && visitsQuery.data.length == 0 && (
+          <Center
+            mx="auto"
+            maxW="5xl"
+            my={4}
+            p={3}
+            rounded="md"
+            minH="200px"
+            alignItems={"center"}
+            shadow="md"
+            borderWidth={1}
+            borderColor="gray.100"
+          >
+            <Heading textAlign="center" size="md">
+              No sessions exist with this user
+            </Heading>
+          </Center>
+        )}
       </Box>
     </main>
   );

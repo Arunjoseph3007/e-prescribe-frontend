@@ -111,11 +111,11 @@ export default function PatientSessions() {
               <Flex fontWeight="medium" gap={2}>
                 <Text fontSize="sm">No Of Visits: {session.noOfVisits}</Text>
                 <Text fontSize="sm">
-                  Starter at: {moment(session.startDate).format("DD/MM/YY")}
+                  Started at: {moment(session.startDate).format("DD/MM/YY")}
                 </Text>
               </Flex>
             </Box>
-            <Link href={`/session/${session.id}`}>
+            <Link href={`/doctor/session/${session.id}`}>
               <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
             </Link>
           </Flex>
