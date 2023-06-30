@@ -54,3 +54,30 @@ export const postVisit = async (
 
   return res.data;
 };
+
+export const getRecentVisits = async () => {
+  const visits: Visit[] = [1, 2, 3, 4, 5].map((p) => ({
+    id: p,
+    date: new Date().toString(),
+    symptoms: ["cough", "cold", "fever"],
+    note: "Note about the visit",
+    temperature: 32,
+    sugar: 134,
+    bloodPressure: "80/124",
+    prescriptions: [1, 2, 3, 4, 5].map((pres) => ({
+      id: pres,
+      days: 2,
+      medicine: {
+        id: 0,
+        name: "Azithromicine",
+      },
+      dosage: {
+        morning: 1,
+        afternoon: 0,
+        evening: -1,
+      },
+    })),
+  }));
+
+  return visits;
+};

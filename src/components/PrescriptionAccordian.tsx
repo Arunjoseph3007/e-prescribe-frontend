@@ -22,6 +22,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   HStack,
+  Divider,
 } from "@chakra-ui/react";
 import Dosage from "@/components/Dosage";
 import moment from "moment";
@@ -64,7 +65,10 @@ export default function PrescriptionAccordian({
             mx={3}
           >
             <Box as="span" flex="1" textAlign="left">
-              <HStack fontWeight={"medium"} mt={4}>
+              <Heading mt={2} size="md">
+                {val.note}
+              </Heading>
+              <HStack mt={2} fontWeight={"medium"}>
                 <CalendarIcon />
                 <Text>{moment(val.date).format("L")}</Text>
               </HStack>

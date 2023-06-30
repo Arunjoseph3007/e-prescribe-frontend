@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { DoctorProfileController } from "@/controllers/doctorProfile";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import {
   Avatar,
@@ -15,8 +16,11 @@ import {
   InputRightElement,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { FormEventHandler, useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import Select from "react-select";
 
@@ -33,6 +37,8 @@ const typeOfDoctors = [
 export type TTypeOfDoctor = (typeof typeOfDoctors)[number];
 
 export default function DoctorProfile() {
+  const router = useRouter();
+  const toast = useToast();
   const [img, setImg] = useState<File | null>(null);
   const [mobile, setMobile] = useState("");
   const [qualification, setQualification] = useState("");
@@ -48,12 +54,46 @@ export default function DoctorProfile() {
   }>();
   const [other, setOther] = useState("");
 
+  const postProfileMutation = useMutation({
+    mutationFn: DoctorProfileController.postDoctorProfile,
+    onSuccess: () => {
+      toast({
+        status: "success",
+        title: "Profile Updated",
+      });
+      router.push("/doctor");
+    },
+  });
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    postProfileMutation.mutate({
+      address: addr,
+      addrLink,
+      endTime: +workingHours.end.split(":")[0],
+      startTime: +workingHours.start.split(":")[0],
+      mobile,
+      qualification,
+      type: type?.label != "Other" ? type!.label : other,
+      id: 0,
+      profilePic: img!,
+    });
+  };
+
   return (
     <main>
       <Navbar />
-      <Box as="form" mb="100px" maxW="4xl" mx="auto" w="95%">
+      <Box
+        onSubmit={handleSubmit}
+        as="form"
+        mb="100px"
+        maxW="4xl"
+        mx="auto"
+        w="95%"
+      >
         <Heading my={5}>Update Your Profile</Heading>
-        <Flex  gap={10}>
+        <Flex gap={10}>
           <VStack>
             <Avatar
               src={img ? URL.createObjectURL(img) : ""}
@@ -193,7 +233,12 @@ export default function DoctorProfile() {
               </InputGroup>
             </FormControl>
 
-            <Button type="submit" mt={2} w="full">
+            <Button
+              isLoading={postProfileMutation.isLoading}
+              type="submit"
+              mt={2}
+              w="full"
+            >
               Update Profile
             </Button>
           </Box>

@@ -24,6 +24,7 @@ import {
   AvatarBadge,
   Circle,
   Tooltip,
+  Accordion,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
@@ -34,16 +35,22 @@ import Link from "next/link";
 import { AiOutlineUser } from "react-icons/ai";
 import { getRecentSessions } from "@/controllers/sessions";
 import moment from "moment";
+import { getRecentVisits } from "@/controllers/visits";
+import PrescriptionAccordian from "@/components/PrescriptionAccordian";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
   const doctorsQuery = useQuery({
     queryFn: DoctorController.getDoctorList,
-    queryKey: ["doctors"],
+    queryKey: ["recent-doctors"],
   });
   const recentSessionsQuery = useQuery({
     queryFn: getRecentSessions,
-    queryKey: ["sessions"],
+    queryKey: ["recent-sessions"],
+  });
+  const recentVisitsQuery = useQuery({
+    queryFn: getRecentVisits,
+    queryKey: ["recent-visits"],
   });
 
   return (
@@ -201,7 +208,22 @@ export default function HomePage() {
                   </Flex>
                 ))}
             </TabPanel>
-            <TabPanel>Recent visits</TabPanel>
+            <TabPanel>
+              <Accordion allowMultiple>
+                {recentVisitsQuery.data &&
+                  recentVisitsQuery.data.map((visit) => (
+                    <Box
+                      my={3}
+                      rounded="md"
+                      border="2px"
+                      borderColor="gray.100"
+                      key={visit.id}
+                    >
+                      <PrescriptionAccordian val={visit} />
+                    </Box>
+                  ))}
+              </Accordion>
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Box>
