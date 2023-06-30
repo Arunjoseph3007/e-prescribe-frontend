@@ -7,18 +7,15 @@ import {
   Button,
   Heading,
   Box,
-  Text,
   Center,
   Tooltip,
-  Editable,
-  EditableInput,
-  EditablePreview,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/react";
+import MedicineInput from "./MedicineInput";
 
 interface PrescriptionTableProps {
   presciptions: PrescriptionState[];
@@ -65,20 +62,14 @@ export default function PrescriptionTable({
           px={4}
           fontSize={"sm"}
         >
-          <Editable
-            onChange={(val) =>
+          <MedicineInput
+            medicine={presciption.medicine}
+            setMed={(med) => {
               setPrescriptions((state) => {
-                state[i].medicine = val;
-              })
-            }
-            placeholder="Enter"
-            pr={4}
-            value={presciption.medicine.toUpperCase()}
-            flex={1}
-          >
-            <EditablePreview />
-            <EditableInput />
-          </Editable>
+                state[i].medicine = med;
+              });
+            }}
+          />
           <Box w={28}>
             <NumberInput
               min={1}

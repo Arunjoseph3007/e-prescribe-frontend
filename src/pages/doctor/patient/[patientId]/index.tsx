@@ -1,16 +1,18 @@
 import Navbar from "@/components/Navbar";
-import { getSessions } from "@/controllers/sessions";
+import { getSessions, postSession } from "@/controllers/sessions";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Input,
   Skeleton,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
@@ -19,11 +21,31 @@ import { useState } from "react";
 
 export default function PatientSessions() {
   const router = useRouter();
+  const toast = useToast();
   const [title, setTitle] = useState("");
+  const queryClient = useQueryClient();
   const sessionsQuery = useQuery({
     queryKey: ["session", router.query.patientId],
     queryFn: () => getSessions(router.query.patientId as string),
     enabled: !!router.query.patientId,
+  });
+  const postSessionMutation = useMutation({
+    mutationFn: () => postSession(title, +(router.query.patientId as string)),
+    onSuccess: (data) => {
+      toast({
+        status: "success",
+        title: "Session Created",
+        description: "Redirecting to sessions page",
+      });
+      queryClient.invalidateQueries(["session", router.query.patientId]);
+      router.push(`/doctor/session/${data.session_id}`);
+    },
+    onError: () => {
+      toast({
+        status: "error",
+        title: "Something went wrong",
+      });
+    },
   });
 
   return (
@@ -45,7 +67,14 @@ export default function PatientSessions() {
             placeholder="Add a session"
             variant="filled"
           />
-          <Button disabled={!title} rounded="full">
+          <Button
+            isLoading={postSessionMutation.isLoading}
+            disabled={!title}
+            rounded="full"
+            onClick={() => {
+              postSessionMutation.mutate();
+            }}
+          >
             Add Session
           </Button>
         </Flex>
@@ -82,15 +111,25 @@ export default function PatientSessions() {
               <Flex fontWeight="medium" gap={2}>
                 <Text fontSize="sm">No Of Visits: {session.noOfVisits}</Text>
                 <Text fontSize="sm">
-                  Starter at: {moment(session.startDate).format("DD/MM/YY")}
+                  Started at: {moment(session.startDate).format("DD/MM/YY")}
                 </Text>
               </Flex>
             </Box>
-            <Link href={`/session/${session.id}`}>
+            <Link href={`/doctor/session/${session.id}`}>
               <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
             </Link>
           </Flex>
         ))}
+        {/* //` Empty state */}
+        {!sessionsQuery.isLoading &&
+          sessionsQuery.data &&
+          sessionsQuery.data.length == 0 && (
+            <Box>
+              <Center my={10}>
+                <Heading size="md">No sessions exist with this user</Heading>
+              </Center>
+            </Box>
+          )}
       </Box>
     </main>
   );

@@ -1,4 +1,9 @@
-import { AddIcon, ChevronRightIcon, SearchIcon, CalendarIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  ChevronRightIcon,
+  SearchIcon,
+  CalendarIcon,
+} from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -17,7 +22,7 @@ import {
   ModalFooter,
   Text,
   Tooltip,
-  Icon
+  Icon,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import PatientBox from "@/components/PatientBox";
@@ -25,7 +30,6 @@ import { useState } from "react";
 import { PatientController } from "@/controllers/patients";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { FaMedkit } from "react-icons/fa"
 
 export default function Doctor() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,7 +45,6 @@ export default function Doctor() {
     enabled: !!(query && isOpen),
   });
   const [suggestMed, setSuggestMed] = useState("");
-
 
   return (
     <div>
@@ -71,7 +74,6 @@ export default function Doctor() {
         justifyContent="space-between"
         alignItems="center"
       >
-        {/* <Box display="flex" justifyContent="center" alignItems="left" > */}
         <InputGroup size="md" w="75vw">
           <Input
             rounded="full"
@@ -86,11 +88,6 @@ export default function Doctor() {
         <Button onClick={onOpen} width="4.5vw" ml={8} rounded="full">
           <AddIcon />
         </Button>
-        {/* </Box> */}
-
-
-
-
       </Flex>
 
       {getPatientsQuery.data &&
@@ -101,6 +98,7 @@ export default function Doctor() {
               key={id}
               name={val.firstName + " " + val.lastName}
               age={val.age}
+              id={val.id}
             />
           );
         })}
@@ -126,7 +124,7 @@ export default function Doctor() {
                   p={3}
                   key={result.id}
                 >
-                  <Link href={`/doctor/patient/${result.userName}`}>
+                  <Link href={`/doctor/patient/${result.id}`}>
                     <Box>
                       <Text fontSize="md" fontWeight="medium">
                         {result.firstName} {result.lastName}
@@ -147,8 +145,6 @@ export default function Doctor() {
         </ModalContent>
       </Modal>
 
-
-
       <Box
         cursor="pointer"
         onClick={suggestModal.onOpen}
@@ -157,13 +153,12 @@ export default function Doctor() {
         right="6"
       >
         {/* <Box position="relative"> */}
-          <Tooltip label="Suggest Medicine" placement='left'>
-            {/* <Box as={CalendarIcon} boxSize={8} color="green" /> */}
-            <CalendarIcon />
-          </Tooltip>
+        <Tooltip label="Suggest Medicine" placement="left">
+          {/* <Box as={CalendarIcon} boxSize={8} color="green" /> */}
+          <CalendarIcon />
+        </Tooltip>
         {/* </Box> */}
       </Box>
-
 
       <Modal isOpen={suggestModal.isOpen} onClose={suggestModal.onClose}>
         <ModalOverlay />
@@ -179,15 +174,13 @@ export default function Doctor() {
             />
           </ModalBody>
           <ModalFooter>
-            <Button variant='ghost' mr={3} onClick={suggestModal.onClose}>
+            <Button variant="ghost" mr={3} onClick={suggestModal.onClose}>
               Close
             </Button>
-            <Button colorScheme='green' >Add</Button>
+            <Button colorScheme="green">Add</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-
 
       {/* <Box cursor="pointer" onClick={suggestModal.onOpen} position="fixed" right="5" bottom="5">
         <Tooltip label='Suggest Medicine' placement='left-start'>

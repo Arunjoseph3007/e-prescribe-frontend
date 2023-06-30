@@ -25,3 +25,11 @@ export const getRecentSessions = async () => {
 
   return sessions;
 };
+
+export const postSession = async (title: string, patientId: number) => {
+  const res = await axios.post("/main/session/", {
+    patient_id: patientId,
+    session_name: title,
+  });
+  return res.data;
+};

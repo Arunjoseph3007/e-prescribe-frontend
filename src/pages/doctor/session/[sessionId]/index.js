@@ -11,10 +11,10 @@ import {
   AccordionIcon,
   Button,
   Heading,
-  Link,
   Center,
   Divider,
   Collapse,
+  Circle,
 } from "@chakra-ui/react";
 import Dosage from "@/components/Dosage";
 import { useState } from "react";
@@ -22,39 +22,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
 import moment from "moment";
-
-const presciptions = [
-  {
-    id: 0,
-    medName: "Paracetamol",
-    days: 5,
-    dosage: {
-      morning: 1,
-      afternoon: -1,
-      evening: 1,
-    },
-  },
-  {
-    id: 1,
-    medName: "Ibuprofen",
-    days: 3,
-    dosage: {
-      morning: 1,
-      afternoon: 0,
-      evening: 1,
-    },
-  },
-  {
-    id: 2,
-    medName: "Amlodipine",
-    days: 6,
-    dosage: {
-      morning: 1,
-      afternoon: 0,
-      evening: 1,
-    },
-  },
-];
+import { AddIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 
 export default function Prescribe() {
   const router = useRouter();
@@ -75,27 +44,48 @@ export default function Prescribe() {
   return (
     <main>
       <Navbar />
-      <Box maxW="6xl" mx="auto">
+      <Box maxW="6xl" minH="100vh" mx="auto">
         {/* //` STATS */}
-        <Box h="56" my={4} rounded="md" bg="gray.200"></Box>
-
-        <Flex
-          mx="auto"
-          maxW="5xl"
+        <Box
+          mb={"24"}
+          position="relative"
+          h="56"
           my={4}
-          p={3}
           rounded="md"
-          minH="200px"
-          alignItems={"center"}
-          shadow="md"
-          borderWidth={1}
-          borderColor="gray.100"
+          bg="gray.200"
         >
-          <Box flex={1}>
-            <Box>
-              <Accordion allowMultiple>
-                {visitsQuery.data &&
-                  visitsQuery.data.map((val, index) => {
+          <Box
+            top="100%"
+            left="75%"
+            translateY="-50%"
+            transform="auto"
+            position="absolute"
+          >
+            <Link href={router.asPath + "/new-visit"}>
+              <Circle p={3} color="white" bg="green.400">
+                <AddIcon fontSize="2xl" />
+              </Circle>
+            </Link>
+          </Box>
+        </Box>
+
+        {visitsQuery.data && visitsQuery.data.length > 0 && (
+          <Flex
+            mx="auto"
+            maxW="5xl"
+            my={4}
+            p={3}
+            rounded="md"
+            minH="200px"
+            alignItems={"center"}
+            shadow="md"
+            borderWidth={1}
+            borderColor="gray.100"
+          >
+            <Box flex={1}>
+              <Box>
+                <Accordion allowMultiple>
+                  {visitsQuery.data.map((val, index) => {
                     return (
                       <>
                         <AccordionItem border="none" key={index}>
@@ -159,7 +149,7 @@ export default function Prescribe() {
                                 </Heading>
                               </Flex>
 
-                              {presciptions.map((presciption, i) => {
+                              {val.prescriptions.map((presciption, i) => {
                                 return (
                                   <Flex
                                     color="blackAlpha.600"
@@ -172,12 +162,8 @@ export default function Prescribe() {
                                     px={4}
                                     fontSize={"sm"}
                                   >
-                                    <Box
-                                      w="40%"
-                                      // pr={4}
-                                      // flex={1}
-                                    >
-                                      {presciption.medName}
+                                    <Box w="40%">
+                                      {presciption.medicine.name}
                                     </Box>
                                     <Box w="30%">
                                       <Center>{presciption.days}</Center>
@@ -197,10 +183,30 @@ export default function Prescribe() {
                       </>
                     );
                   })}
-              </Accordion>
+                </Accordion>
+              </Box>
             </Box>
-          </Box>
-        </Flex>
+          </Flex>
+        )}
+
+        {visitsQuery.isFetched && visitsQuery.data.length == 0 && (
+          <Center
+            mx="auto"
+            maxW="5xl"
+            my={4}
+            p={3}
+            rounded="md"
+            minH="200px"
+            alignItems={"center"}
+            shadow="md"
+            borderWidth={1}
+            borderColor="gray.100"
+          >
+            <Heading textAlign="center" size="md">
+              No sessions exist with this user
+            </Heading>
+          </Center>
+        )}
       </Box>
     </main>
   );
