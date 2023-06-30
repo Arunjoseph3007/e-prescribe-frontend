@@ -9,7 +9,13 @@ import {
   Circle,
   Tag,
 } from "@chakra-ui/react";
-import { EmailIcon, ChevronRightIcon, PhoneIcon, Icon } from "@chakra-ui/icons";
+import {
+  EmailIcon,
+  ChevronRightIcon,
+  PhoneIcon,
+  Icon,
+  LinkIcon,
+} from "@chakra-ui/icons";
 import Link from "next/link";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaClock, FaMap, FaUserGraduate } from "react-icons/fa";
@@ -33,7 +39,12 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
       key={doctor.id}
     >
       <Tooltip label={doctor.isAvailable && "Available"}>
-        <Avatar size="xl" bg="gray.300" icon={<AiOutlineUser />}>
+        <Avatar
+          src={doctor.profilePic}
+          size="xl"
+          bg="gray.300"
+          icon={<AiOutlineUser />}
+        >
           {doctor.isAvailable && <AvatarBadge boxSize="0.8em" bg="green.500" />}
         </Avatar>
       </Tooltip>
@@ -47,7 +58,7 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
             {doctor.userName}
           </Text>
 
-          <Tag>{doctor.type}</Tag>
+          <Tag textTransform={"capitalize"}>{doctor.type}</Tag>
         </HStack>
 
         <HStack mt={1} color="blackAlpha.600">
@@ -72,12 +83,15 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
           </HStack>
         </HStack>
 
-        <HStack mt={2} color="blackAlpha.600">
-          <Icon as={FaMap} />
-          <Link href={doctor.addrLink}>
-            <Text fontSize="sm">{doctor.address}</Text>
-          </Link>
-        </HStack>
+        <Link target="_blank" href={doctor.addrLink}>
+          <HStack mt={2} color="blackAlpha.600">
+            <Icon as={FaMap} />
+            <Text noOfLines={1} fontSize="sm">
+              {doctor.address}
+            </Text>
+            <LinkIcon />
+          </HStack>
+        </Link>
       </Box>
 
       <Link href={`/patient/doctor/${doctor.id}`}>

@@ -12,4 +12,5 @@ export interface Doctor {
   type: string;
   qualification: string;
   addrLink: string;
+  profilePic?: string;
 }

@@ -44,6 +44,7 @@ const searchDoctors = async (name: string, address: string, type: string) => {
     addrLink: doc.address_link,
     type: doc.type,
     qualification: doc.qualification,
+    profilePic: process.env.NEXT_PUBLIC_BACKEND + doc.profile_pic,
   }));
 
   return doctors;

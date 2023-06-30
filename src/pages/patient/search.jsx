@@ -29,8 +29,8 @@ export default function SearchPage() {
   const [type, setType] = useState("");
   const [other, setOther] = useState("");
   const doctorsQuery = useQuery({
-    queryFn: () => DoctorController.searchDoctors(name, address, type),
-    queryKey: ["doctors-search", name, address, type],
+    queryFn: () => DoctorController.searchDoctors(name, address, type.label),
+    queryKey: ["doctors-search", name, address, type?.label || ""],
   });
 
   return (
