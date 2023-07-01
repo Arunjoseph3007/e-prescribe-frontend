@@ -1,3 +1,4 @@
+import { PrescriptionState } from "@/interfaces/prescription";
 import { Visit } from "@/interfaces/visit";
 import axios from "@/libs/axios";
 
@@ -12,6 +13,7 @@ export const getVisits = async (id: string) => {
     temperature: visit.temperature,
     sugar: visit.sugar,
     bloodPressure: visit.bp,
+    token: visit.url_id,
     prescriptions: (visit.prescription as any[]).map((pres) => ({
       id: pres.pres_id,
       days: pres.num_days,
@@ -65,6 +67,7 @@ export const getRecentVisits = async () => {
     temperature: visit.temperature,
     sugar: visit.sugar,
     bloodPressure: visit.bp,
+    token: visit.url_id,
     prescriptions: (visit.prescription as any[]).map((pres) => ({
       id: pres.pres_id,
       days: pres.num_days,
@@ -81,4 +84,35 @@ export const getRecentVisits = async () => {
   }));
 
   return visits;
+};
+
+export const getPrescriptionScan = async (token: string) => {
+  const { data } = await axios.get("/prescription/geturldetails/", {
+    params: { url_id: token },
+  });
+
+  const prescriptions: PrescriptionState[] = (data.prescription as any[]).map(
+    (pres) => ({
+      id: pres.pres_id,
+      days: pres.num_days,
+      medicine: {
+        id: 0,
+        name: pres.medicine,
+      },
+      dosage: {
+        morning: pres.morning,
+        afternoon: pres.afternoon,
+        evening: pres.night,
+      },
+    })
+  );
+
+  const date: string = data.visit_date;
+  const doctorName: string =
+    data.doctor.first_name + " " + data.doctor.last_name;
+  const patientName: string =
+    data.patient.first_name + " " + data.patient.last_name;
+  const patientAge: string | null = data.age;
+
+  return { prescriptions, date, doctorName, patientName, patientAge };
 };

@@ -125,7 +125,7 @@ export default function PrescriptionAccordian({
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-        <Heading fontWeight={"medium"} size="md" my="3">
+          <Heading fontWeight={"medium"} size="md" my="3">
             Notes
           </Heading>
           <Box p={2} bg="blackAlpha.200" rounded="md">
@@ -196,7 +196,10 @@ export default function PrescriptionAccordian({
           <ModalCloseButton />
           <ModalBody>
             <div id={uniqueId}>
-              <QRCodeCanvas size={400} value={`http://e-pr/qr/hey`} />
+              <QRCodeCanvas
+                size={400}
+                value={`https://e-prescribe.vercel.app/prescription/${val.token}`}
+              />
             </div>
           </ModalBody>
 

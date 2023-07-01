@@ -9,4 +9,5 @@ export interface Visit {
   sugar?: number;
   bloodPressure?: string;
   prescriptions: PrescriptionState[];
+  token: string;
 }

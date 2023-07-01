@@ -12,6 +12,7 @@ export interface TUser {
   userName: string;
   id: string;
   email: string;
+  isDoctor: boolean;
   photo?: string;
 }
 
