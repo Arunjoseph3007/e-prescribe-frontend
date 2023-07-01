@@ -33,7 +33,7 @@ export const getVisits = async (id: string) => {
 };
 
 export const postVisit = async (
-  visit: Omit<Visit, "id" | "date">,
+  visit: Omit<Visit, "id" | "date" | "token">,
   sessionId: number
 ) => {
   const res = await axios.post("/main/visit/", {
