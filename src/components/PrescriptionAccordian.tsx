@@ -65,9 +65,6 @@ export default function PrescriptionAccordian({
             mx={3}
           >
             <Box as="span" flex="1" textAlign="left">
-              <Heading mt={2} size="md">
-                {val.note}
-              </Heading>
               <HStack mt={2} fontWeight={"medium"}>
                 <CalendarIcon />
                 <Text>{moment(val.date).format("L")}</Text>
@@ -88,16 +85,16 @@ export default function PrescriptionAccordian({
                   <Text>{val.sugar ?? "-"}</Text>
                 </HStack>
               </Flex>
-              <HStack fontWeight={"medium"} my={4}>
+              <Flex gap={4} fontWeight={"medium"} my={4}>
                 <Text>Symptoms:</Text>
-                <HStack>
+                <HStack wrap="wrap">
                   {val.symptoms.map((sym, ind) => (
                     <Tag key={ind} size="md">
                       {sym}
                     </Tag>
                   ))}
                 </HStack>
-              </HStack>
+              </Flex>
             </Box>
 
             <VStack
@@ -128,8 +125,21 @@ export default function PrescriptionAccordian({
           <AccordionIcon />
         </AccordionButton>
         <AccordionPanel pb={4}>
-          <Heading fontWeight={"medium"} size="md" mb="2">
-            Prescription:{" "}
+        <Heading fontWeight={"medium"} size="md" my="3">
+            Notes
+          </Heading>
+          <Box p={2} bg="blackAlpha.200" rounded="md">
+            <Text
+              fontWeight="medium"
+              whiteSpace="break-spaces"
+              my={2}
+              size="md"
+            >
+              {val.note}
+            </Text>
+          </Box>
+          <Heading fontWeight={"medium"} size="md" my="3">
+            Prescription
           </Heading>
           <Box rounded="md" border={"2px"} borderColor={"gray.100"}>
             <Flex
