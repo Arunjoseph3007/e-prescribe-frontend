@@ -71,11 +71,6 @@ export default function Prescribe() {
 
         <Box w="5xl" m="auto">
           <Button
-            onClick={() => {
-              setPrescriptions((prev) => {
-                prev.push(emptyPrescription);
-              });
-            }}
             my={3}
           >
             <Link href={router.asPath + "/new-visit"}>

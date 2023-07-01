@@ -80,10 +80,10 @@ export default function Login() {
               />
             </InputGroup>
           </FormControl>
-          <Text mb={6} color="grey">
-            Doesn&apos;t have an account yet?{" "}
+          <Text my={6} color="grey">
+            New to PrescribeMe?{" "} 
             <Link color="green" href="/register">
-              Sign Up
+              Create an account
             </Link>
           </Text>
           <Button type="submit" my={2} w="full" colorScheme="green">
