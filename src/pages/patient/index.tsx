@@ -37,6 +37,7 @@ import { getRecentSessions } from "@/controllers/sessions";
 import moment from "moment";
 import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
+import DoctorCard from "@/components/DoctorCard";
 import Head from "next/head";
 
 export default function HomePage() {
@@ -116,62 +117,7 @@ export default function HomePage() {
             <TabPanel>
               {doctorsQuery.data &&
                 doctorsQuery.data.map((doctor) => (
-                  <Flex
-                    p={3}
-                    gap={6}
-                    alignItems="center"
-                    rounded="md"
-                    shadow="sm"
-                    border="1px"
-                    borderColor="blackAlpha.100"
-                    my={3}
-                    key={doctor.id}
-                  >
-                    <Tooltip label={doctor.isAvailable && "Available"}>
-                      <Avatar size="xl" bg="gray.300" icon={<AiOutlineUser />}>
-                        {doctor.isAvailable && (
-                          <AvatarBadge boxSize="0.8em" bg="green.500" />
-                        )}
-                      </Avatar>
-                    </Tooltip>
-                    <Box flex={1}>
-                      <HStack>
-                        <Text fontSize="2xl" fontWeight="bold">
-                          {doctor.firstName} {doctor.lastName}
-                        </Text>
-                        <Circle size="5px" bg="blackAlpha.400" />
-                        <Text fontSize="sm" color="blackAlpha.500">
-                          {doctor.userName}
-                        </Text>
-                      </HStack>
-
-                      <HStack mt={1} color="blackAlpha.600">
-                        <EmailIcon />
-                        <Text fontSize="sm">{doctor.email}</Text>
-                      </HStack>
-
-                      <HStack mt={2} gap={7}>
-                        <HStack color="blackAlpha.600">
-                          <PhoneIcon />
-                          <Text fontSize="sm">{doctor.phone}</Text>
-                        </HStack>
-
-                        <HStack color="blackAlpha.600">
-                          <Icon as={FaClock} />
-                          <Text fontSize="sm">{doctor.workingHours}</Text>
-                        </HStack>
-                      </HStack>
-
-                      <HStack mt={2} color="blackAlpha.600">
-                        <Icon as={FaMap} />
-                        <Text fontSize="sm">{doctor.address}</Text>
-                      </HStack>
-                    </Box>
-
-                    <Link href={`/patient/doctor/${doctor.id}`}>
-                      <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
-                    </Link>
-                  </Flex>
+                  <DoctorCard key={doctor.id} doctor={doctor} />
                 ))}
             </TabPanel>
             <TabPanel>

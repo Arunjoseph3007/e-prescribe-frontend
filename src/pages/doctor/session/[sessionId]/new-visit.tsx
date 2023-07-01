@@ -64,7 +64,7 @@ export default function NewVisit() {
   const [bp, setBp] = useState([80, 120]);
   const [temperature, setTemperature] = useState(37);
   const createVisitMutation = useMutation({
-    mutationFn: (v: Omit<Visit, "id" | "date">) =>
+    mutationFn: (v: Omit<Visit, "id" | "date" | "token">) =>
       postVisit(v, +(router.query.sessionId as string)),
     onSuccess: () => {
       toast({

@@ -9,4 +9,8 @@ export interface Doctor {
   email: string;
   isAvailable: boolean;
   workingHours: string;
+  type: string;
+  qualification: string;
+  addrLink: string;
+  profilePic?: string;
 }
