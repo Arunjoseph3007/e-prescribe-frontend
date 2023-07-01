@@ -54,7 +54,7 @@ export default function Prescribe() {
           rounded="md"
           bg="gray.200"
         >
-          <Box
+          {/* <Box
             top="100%"
             left="75%"
             translateY="-50%"
@@ -66,7 +66,24 @@ export default function Prescribe() {
                 <AddIcon fontSize="2xl" />
               </Circle>
             </Link>
-          </Box>
+          </Box> */}
+        </Box>
+
+        <Box w="5xl" m="auto">
+          <Button
+            onClick={() => {
+              setPrescriptions((prev) => {
+                prev.push(emptyPrescription);
+              });
+            }}
+            my={3}
+          >
+            <Link href={router.asPath + "/new-visit"}>
+              <Circle p={3} color="white" bg="green.400">
+                <AddIcon fontSize="2xl" />
+              </Circle>
+            </Link>
+          </Button>
         </Box>
 
         {visitsQuery.data && visitsQuery.data.length > 0 && (

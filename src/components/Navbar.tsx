@@ -4,6 +4,7 @@ import {
   Button,
   useDisclosure,
   Heading,
+  Image
 } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -12,10 +13,11 @@ export default function Navbar() {
 
   return (
     <Box>
-      <Flex justify="space-between" alignItems="center" mx="auto" maxW="6xl">
-        <Heading py={6} size="md">
+      <Flex justify="space-between" alignItems="center" mx="auto" maxW="6xl" mt={3}>
+        {/* <Heading py={6} size="md">
           E-Prescribe
-        </Heading>
+        </Heading> */}
+        <Image src="/images/2LandscapeLogo.png" alt='Loading...' w="230px"/>
         <Flex gap={3}>
           <Button as={Link} href="/login" rounded="full">
             login

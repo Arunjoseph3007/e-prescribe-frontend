@@ -37,6 +37,7 @@ import { getRecentSessions } from "@/controllers/sessions";
 import moment from "moment";
 import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
+import Head from "next/head";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
@@ -53,8 +54,12 @@ export default function HomePage() {
     queryKey: ["recent-visits"],
   });
 
-  return (
+  return (  
     <div>
+      <Head>
+        <title>Patient</title>
+        <meta property="og:title" content="My page title" key="title" />
+      </Head>
       <Navbar />
       <Box
         maxW="6xl"
