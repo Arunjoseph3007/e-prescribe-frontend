@@ -62,13 +62,13 @@ export default function HomePage() {
       </Head>
       <Navbar />
       <Box
-        maxW="6xl"
         mx="auto"
         p={6}
         shadow="md"
         border="1px"
         borderColor="blackAlpha.100"
-        w="75vw"
+        w="95vw"
+        maxW="5xl"
         display="flex"
         justifyContent="space-between"
         py="10"
