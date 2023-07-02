@@ -106,7 +106,7 @@ export default function NewVisit() {
 
         {/* //` New session form */}
         <Box mx="auto" maxW="4xl">
-          <Heading px={3}>Add New Session</Heading>
+          <Heading px={3}>Add New Visit</Heading>
           <Divider />
 
           <Box

@@ -30,6 +30,7 @@ import { useState } from "react";
 import { PatientController } from "@/controllers/patients";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Doctor() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,6 +49,10 @@ export default function Doctor() {
 
   return (
     <div>
+      <Head>
+        <title>Doctor</title>
+      </Head>
+      
       <Navbar />
 
       <Box

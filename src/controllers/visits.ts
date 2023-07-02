@@ -6,7 +6,7 @@ export const getVisits = async (id: string) => {
   const res = await axios.get(`/main/sessionvisit/?session=${id}`);
 
   const visits: Visit[] = (res.data as any[]).map((visit: any) => ({
-    id: visit.visit_id,
+    id: visit.visit_id, 
     date: visit.visit_date,
     symptoms: visit.symptoms.split(","),
     note: visit.note,

@@ -13,6 +13,8 @@ import {
   InputLeftElement,
   Text,
   Tooltip,
+  Image,
+  Center
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
@@ -42,9 +44,11 @@ export default function Register() {
   };
 
   return (
-    <Box bgGradient="linear(to-br, green.200, white, white)">
+    <Box>
       <Flex minH="100vh" maxW="6xl" mx="auto">
-        <Box flex={1}>Image</Box>
+        <Center flex={1}>
+          <Image src="/images/main_logo.PNG" w="30vw"></Image>
+        </Center>
         <Box>
           <Box
             onSubmit={handleSubmit}
@@ -60,12 +64,7 @@ export default function Register() {
             <Heading textAlign="center" size="lg">
               Create an Account
             </Heading>
-            <Box my={2} fontSize="sm" textAlign={"center"}>
-              Already have an account?{" "}
-              <Text display="inline" color="blue.400">
-                <Link href="/login">Login</Link>
-              </Text>
-            </Box>
+
             <Flex gap={2}>
               <FormControl mt={4} my={1} isRequired>
                 <FormLabel>First name</FormLabel>
@@ -177,6 +176,12 @@ export default function Register() {
             <Button isLoading={loading} type="submit" my={1} w="full">
               Create Account
             </Button>
+            <Box my={2} fontSize="sm" textAlign={"center"}>
+              Already have an account?{" "}
+              <Text display="inline" color="blue.400">
+                <Link href="/login">Login</Link>
+              </Text>
+            </Box>
           </Box>
         </Box>
       </Flex>

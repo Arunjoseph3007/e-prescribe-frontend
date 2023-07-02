@@ -84,15 +84,16 @@ export default function PatientSessions() {
           new Array(4)
             .fill(0)
             .map((_, i) => (
-              <Skeleton height="24" mx="auto" maxW="4xl" my={4} key={i} />
+              <Skeleton height="24" mx="auto" maxW="5xl" my={4} key={i} />
             ))}
         {/* //` Sessions list */}
         {sessionsQuery.data?.map((session) => (
           <Flex
             mx="auto"
-            maxW="4xl"
-            my={4}
-            p={3}
+            maxW="5xl"
+            my={8}
+            px="30px"
+            py="50px"
             rounded="md"
             h="24"
             alignItems={"center"}
@@ -102,22 +103,28 @@ export default function PatientSessions() {
             key={session.id}
           >
             <Box flex={1}>
-              <Heading fontWeight={"medium"} size="md">
-                {session.title}
-              </Heading>
-              <Text fontSize={"sm"} color="GrayText">
-                Last visit {moment(session.lastVisit).fromNow()}
-              </Text>
-              <Flex fontWeight="medium" gap={2}>
-                <Text fontSize="sm">No Of Visits: {session.noOfVisits}</Text>
-                <Text fontSize="sm">
-                  Started at: {moment(session.startDate).format("DD/MM/YY")}
-                </Text>
-              </Flex>
+              <Box><strong>Title:{" "}</strong>{session.title}</Box>
+              <Box width="45vw" display="flex" justifyContent="space-between" alignItems="center" mt={3}>
+                <Box width="30%">
+                  <Text fontSize={"sm"} color="GrayText">
+                    Last visit {moment(session.lastVisit).fromNow()}
+                  </Text>
+                </Box>
+                <Box>
+                  <Text fontSize="sm">No of Visits: {session.noOfVisits}</Text>
+                </Box>
+                <Box width="30%">
+                  <Text fontSize="sm">
+                    Started at: {moment(session.startDate).format("DD/MM/YY")}
+                  </Text>
+                </Box>
+              </Box>
             </Box>
-            <Link href={`/doctor/session/${session.id}`}>
-              <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
-            </Link>
+            <Box bgColor="var(--chakra-colors-green-500)" borderRadius="50%">
+              <Link href={`/doctor/session/${session.id}`}>
+                <ChevronRightIcon fontSize={"4xl"} color={"white"} />
+              </Link>
+            </Box>
           </Flex>
         ))}
         {/* //` Empty state */}

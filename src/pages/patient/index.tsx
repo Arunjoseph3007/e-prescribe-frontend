@@ -32,10 +32,7 @@ import moment from "moment";
 import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
 import DoctorCard from "@/components/DoctorCard";
-import { useAuth } from "@/context/AuthContext";
-import { FaUserNurse } from "react-icons/fa";
-import { RiTempColdFill } from "react-icons/ri";
-import { MdOutlineVisibility } from "react-icons/md";
+import Head from "next/head";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
@@ -53,10 +50,12 @@ export default function HomePage() {
     queryKey: ["recent-visits"],
   });
 
-  const now = moment().format("YYYY");
-
-  return (
+  return (  
     <div>
+      <Head>
+        <title>Patient</title>
+        <meta property="og:title" content="My page title" key="title" />
+      </Head>
       <Navbar />
       <Box
         maxW="6xl"

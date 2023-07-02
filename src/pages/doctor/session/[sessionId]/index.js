@@ -54,19 +54,17 @@ export default function Prescribe() {
           rounded="md"
           bg="gray.200"
         >
-          <Box
-            top="100%"
-            left="75%"
-            translateY="-50%"
-            transform="auto"
-            position="absolute"
-          >
-            <Link href={router.asPath + "/new-visit"}>
-              <Circle p={3} color="white" bg="green.400">
-                <AddIcon fontSize="2xl" />
-              </Circle>
-            </Link>
-          </Box>
+        </Box>
+        <Box w="5xl" m="auto">
+          <Link href={router.asPath + "/new-visit"}>
+            <Button
+              my={3}
+              w="full"
+              leftIcon={<AddIcon />}
+            >
+              Add New Visit
+            </Button>
+          </Link>
         </Box>
 
         {visitsQuery.data && visitsQuery.data.length > 0 && (
@@ -208,6 +206,6 @@ export default function Prescribe() {
           </Center>
         )}
       </Box>
-    </main>
+    </main >
   );
 }
