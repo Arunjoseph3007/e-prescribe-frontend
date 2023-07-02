@@ -1,4 +1,4 @@
-import { AddIcon, ChevronRightIcon, SearchIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -33,6 +33,10 @@ import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
 import DoctorCard from "@/components/DoctorCard";
 import Head from "next/head";
+import { useAuth } from "@/context/AuthContext";
+import { FaUserNurse } from "react-icons/fa";
+import { RiTempColdFill } from "react-icons/ri";
+import { MdOutlineVisibility } from "react-icons/md";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
