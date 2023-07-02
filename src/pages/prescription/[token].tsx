@@ -5,38 +5,6 @@ import { getPrescriptionScan } from "@/controllers/visits";
 import { useRouter } from "next/router";
 import moment from "moment";
 
-const presciptions = [
-  {
-    id: 0,
-    medicine: "Paracetamol",
-    days: 5,
-    dosage: {
-      morning: 1,
-      afternoon: -1,
-      evening: 1,
-    },
-  },
-  {
-    id: 1,
-    medicine: "Ibuprofen",
-    days: 3,
-    dosage: {
-      morning: 0,
-      afternoon: 1,
-      evening: 1,
-    },
-  },
-  {
-    id: 2,
-    medicine: "Amlodipine",
-    days: 6,
-    dosage: {
-      morning: 1,
-      afternoon: 0,
-      evening: 1,
-    },
-  },
-];
 
 export default function Scanned() {
   const router = useRouter();
