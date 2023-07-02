@@ -14,6 +14,15 @@ const searchMedicine = async (query: string) => {
   return results;
 };
 
+const suggestMedicine = async (med_name: string) => {
+  const { data } = await axios.post("/prescription/medicinesuggest/", {
+    med_name,
+  });
+
+  return data;
+};
+
 export const MedicineController = {
   searchMedicine,
+  suggestMedicine,
 };

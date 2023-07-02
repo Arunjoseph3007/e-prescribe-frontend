@@ -72,6 +72,7 @@ export default function PatientSessions() {
             disabled={!title}
             rounded="full"
             onClick={() => {
+              if (!title) return;
               postSessionMutation.mutate();
             }}
           >
@@ -103,8 +104,17 @@ export default function PatientSessions() {
             key={session.id}
           >
             <Box flex={1}>
-              <Box><strong>Title:{" "}</strong>{session.title}</Box>
-              <Box width="45vw" display="flex" justifyContent="space-between" alignItems="center" mt={3}>
+              <Box>
+                <strong>Title: </strong>
+                {session.title}
+              </Box>
+              <Box
+                width="45vw"
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                mt={3}
+              >
                 <Box width="30%">
                   <Text fontSize={"sm"} color="GrayText">
                     Last visit {moment(session.lastVisit).fromNow()}
