@@ -1,9 +1,4 @@
-import {
-  ChevronRightIcon,
-  EmailIcon,
-  PhoneIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+import { AddIcon, ChevronRightIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -18,29 +13,29 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Avatar,
-  HStack,
-  Icon,
-  AvatarBadge,
-  Circle,
-  Tooltip,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
   Accordion,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DoctorController from "@/controllers/doctor";
-import { FaClock, FaMap } from "react-icons/fa";
 import Link from "next/link";
-import { AiOutlineUser } from "react-icons/ai";
 import { getRecentSessions } from "@/controllers/sessions";
 import moment from "moment";
 import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
 import DoctorCard from "@/components/DoctorCard";
+import { useAuth } from "@/context/AuthContext";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
+  const { user } = useAuth();
   const doctorsQuery = useQuery({
     queryFn: DoctorController.getDoctorList,
     queryKey: ["recent-doctors"],
@@ -54,23 +49,58 @@ export default function HomePage() {
     queryKey: ["recent-visits"],
   });
 
+  const now = moment().format("YYYY");
+
   return (
     <div>
       <Navbar />
       <Box
         maxW="6xl"
         mx="auto"
-        bg="gray.200"
-        h="120px"
+        p={6}
+        shadow="md"
+        border="1px"
+        borderColor="blackAlpha.100"
         w="75vw"
         display="flex"
-        justifyContent="center"
-        alignItems="center"
+        justifyContent="space-between"
+        py="10"
         m="auto"
         borderRadius="10px"
         mt="40px"
       >
-        <Heading textAlign="center">Anil Shah</Heading>
+        <Box flex={1}>
+          <Heading>{user?.fullName}</Heading>
+          <Text color="blackAlpha.400">Age 30</Text>
+        </Box>
+
+        <Stat>
+          <StatLabel>Doctors</StatLabel>
+          <StatNumber>{doctorsQuery.data?.length}</StatNumber>
+          <StatHelpText>
+            <StatArrow type="increase" />
+            Consulted
+          </StatHelpText>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Sessions</StatLabel>
+          <StatNumber>{recentSessionsQuery.data?.length}</StatNumber>
+          <StatHelpText>
+            <StatArrow type="increase" />
+            {/* <AddIcon/> */}
+            Completed
+          </StatHelpText>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Visits</StatLabel>
+          <StatNumber>{recentVisitsQuery.data?.length}</StatNumber>
+          <StatHelpText>
+            <StatArrow type="decrease" />
+            Visited
+          </StatHelpText>
+        </Stat>
       </Box>
 
       <Flex

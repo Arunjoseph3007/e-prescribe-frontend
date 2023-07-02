@@ -9,11 +9,13 @@ export interface TRegister {
 }
 
 export interface TUser {
+  fullName: string;
   userName: string;
   id: string;
   email: string;
   isDoctor: boolean;
   photo?: string;
+  age: null | number;
 }
 
 export interface TAuthContext {

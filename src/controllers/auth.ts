@@ -1,5 +1,6 @@
-import { TRegister } from "@/interfaces/auth";
+import { TRegister, TUser } from "@/interfaces/auth";
 import axios from "axios";
+import axiosWithToken from "@/libs/axios";
 
 const login = async (p: { email: string; password: string }) => {
   const res = await axios.post(
@@ -29,7 +30,25 @@ const register = async (p: TRegister) => {
   return res.data;
 };
 
+const refresh = async () => {
+  const res = await axiosWithToken.get("/accounts/MyUser/");
+
+  if (!res.data.username) return null;
+
+  const user: TUser = {
+    email: res.data.email,
+    id: res.data.user_id,
+    isDoctor: res.data.is_doctor,
+    userName: res.data.username,
+    age: res.data.age,
+    fullName: res.data.first_name + " " + res.data.last_name,
+  };
+
+  return user;
+};
+
 export const AuthController = {
   login,
   register,
+  refresh,
 };
