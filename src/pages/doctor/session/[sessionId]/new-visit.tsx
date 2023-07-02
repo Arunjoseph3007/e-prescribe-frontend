@@ -16,6 +16,7 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
+  Tooltip,
   HStack,
   InputRightAddon,
   Slider,
@@ -60,9 +61,12 @@ export default function NewVisit() {
   const [presciptions, setPrescriptions] = useImmer<PrescriptionState[]>([
     emptyPrescription,
   ]);
-  const [sugar, setSugar] = useState(120);
+  const [sugar, setSugar] = useState(90);
   const [bp, setBp] = useState([80, 120]);
-  const [temperature, setTemperature] = useState(37);
+  const [temperature, setTemperature] = useState(98.6);
+  const [showTooltip1, setShowTooltip1] = useState(false)
+  const [showTooltip2, setShowTooltip2] = useState(false)
+  const [showTooltip3, setShowTooltip3] = useState(false)
   const createVisitMutation = useMutation({
     mutationFn: (v: Omit<Visit, "id" | "date" | "token">) =>
       postVisit(v, +(router.query.sessionId as string)),
@@ -102,11 +106,14 @@ export default function NewVisit() {
       <Navbar />
       <Box maxW="6xl" mx="auto">
         {/* //` STATS */}
-        <Box h="56" my={4} rounded="md" bg="gray.200"></Box>
+        {/* <Box h="56" my={4} rounded="md" bg="gray.200"></Box> */}
 
         {/* //` New session form */}
         <Box mx="auto" maxW="4xl">
-          <Heading px={3}>Add New Session</Heading>
+          <Flex justifyContent={"center"} my = {4}>
+            <Heading px={3} fontFamily={"sans-serif"} color={"#30945d"} >Add New Visit</Heading>
+
+          </Flex>
           <Divider />
 
           <Box
@@ -181,14 +188,29 @@ export default function NewVisit() {
                   <Slider
                     onChange={setTemperature}
                     aria-label="slider-ex-4"
-                    defaultValue={30}
+                    defaultValue={98.6}
+                    onMouseEnter={() => setShowTooltip1(true)}
+                    onMouseLeave={() => setShowTooltip1(false)}
+                    min={90}
+                    max={120}
+                    step={0.1}
                   >
                     <SliderTrack bg="green.100">
                       <SliderFilledTrack bg="green" />
                     </SliderTrack>
+                    <Tooltip
+                        hasArrow
+                        bg='#30945d'
+                        color='white'
+                        placement='top'
+                        isOpen={showTooltip1}
+                        label={`${temperature}°F`}
+                      >
                     <SliderThumb boxSize={6}>
-                      <Box color="green" as={FaThermometerEmpty} />
+                      <Box color="#30945d" as={FaThermometerEmpty} />
+                      
                     </SliderThumb>
+                    </Tooltip>
                   </Slider>
                 </InputGroup>
               </FormControl>
@@ -200,18 +222,38 @@ export default function NewVisit() {
                     onChange={setBp}
                     aria-label={["min", "max"]}
                     value={bp}
-                    min={40}
-                    max={300}
+                    min={65}
+                    max={145}
+                    onMouseEnter={() => setShowTooltip2(true)}
+                    onMouseLeave={() => setShowTooltip2(false)}
                   >
                     <RangeSliderTrack bg="green.100">
                       <RangeSliderFilledTrack bg="green" />
                     </RangeSliderTrack>
+                    <Tooltip
+                        hasArrow
+                        bg='#30945d'
+                        color='white'
+                        placement='top'
+                        isOpen={showTooltip2}
+                        label={`${bp[0]}mm Hg`}
+                      >
                     <RangeSliderThumb boxSize={6} index={0}>
                       <Box color="green" as={MdGraphicEq} />
                     </RangeSliderThumb>
+                    </Tooltip>
+                    <Tooltip
+                        hasArrow
+                        bg='#30945d'
+                        color='white'
+                        placement='top'
+                        isOpen={showTooltip2}
+                        label={`${bp[1]}mm Hg`}
+                      >
                     <RangeSliderThumb boxSize={6} index={1}>
                       <Box color="green" as={MdGraphicEq} />
                     </RangeSliderThumb>
+                    </Tooltip>
                   </RangeSlider>
                 </InputGroup>
               </FormControl>
@@ -222,14 +264,27 @@ export default function NewVisit() {
                   <Slider
                     onChange={setSugar}
                     aria-label="slider-ex-4"
-                    defaultValue={30}
+                    defaultValue={90}
+                    min={60}
+                    max={140}
+                    onMouseEnter={() => setShowTooltip3(true)}
+                    onMouseLeave={() => setShowTooltip3(false)}
                   >
                     <SliderTrack bg="green.100">
                       <SliderFilledTrack bg="green" />
                     </SliderTrack>
+                    <Tooltip
+                        hasArrow
+                        bg='#30945d'
+                        color='white'
+                        placement='top'
+                        isOpen={showTooltip3}
+                        label={`${sugar}mg/dL`}
+                      >
                     <SliderThumb boxSize={6}>
                       <Box color="green" as={MdGraphicEq} />
                     </SliderThumb>
+                    </Tooltip>
                   </Slider>
                 </InputGroup>
               </FormControl>
