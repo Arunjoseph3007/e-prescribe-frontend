@@ -69,16 +69,29 @@ export default function Prescribe() {
           </Box> */}
         </Box>
 
-        <Box w="5xl" m="auto">
+        {/* 
+        <Box w="5xl" m="auto" borderRadius="10px">
           <Button
             my={3}
           >
             <Link href={router.asPath + "/new-visit"}>
-              <Circle p={3} color="white" bg="green.400">
+              <Box color="white" bg="green.400" m="auto">
                 <AddIcon fontSize="2xl" />
-              </Circle>
+              </Box>
             </Link>
           </Button>
+        </Box> */}
+
+        <Box w="5xl" m="auto">
+          <Link href={router.asPath + "/new-visit"}>
+            <Button
+              my={3}
+              w="full"
+              leftIcon={<AddIcon />}
+            >
+              Add New Visit
+            </Button>
+          </Link>
         </Box>
 
         {visitsQuery.data && visitsQuery.data.length > 0 && (
@@ -220,6 +233,6 @@ export default function Prescribe() {
           </Center>
         )}
       </Box>
-    </main>
+    </main >
   );
 }

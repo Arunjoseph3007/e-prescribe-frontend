@@ -17,7 +17,7 @@ export default function Navbar() {
         {/* <Heading py={6} size="md">
           E-Prescribe
         </Heading> */}
-        <Image src="/images/2LandscapeLogo.png" alt='Loading...' w="230px"/>
+        <Image src="/images/landscapeLogo.png" alt='Loading...' w="230px"/>
         <Flex gap={3}>
           <Button as={Link} href="/login" rounded="full">
             login
