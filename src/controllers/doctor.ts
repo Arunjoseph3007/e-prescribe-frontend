@@ -52,6 +52,33 @@ const searchDoctors = async (name: string, address: string, type: string) => {
   return doctors;
 };
 
+const getDoctorById = async (id: string) => {
+  const { data } = await axios.get("/accounts/getdoctorbyid/", {
+    params: { id },
+  });
+  const now = new Date().getHours();
+
+  const doc = data[0];
+  const doctor: Doctor = {
+    id: doc.doctor,
+    age: 30,
+    lastName: doc.last_name,
+    firstName: doc.first_name,
+    userName: doc.username,
+    phone: doc.phonenumber,
+    email: doc.email,
+    isAvailable: now > doc.clinic_start_time && now < doc.clinic_end_time,
+    workingHours: getWorkingHours(doc.clinic_start_time, doc.clinic_end_time),
+    address: doc.address,
+    addrLink: doc.address_link,
+    type: doc.type,
+    qualification: doc.qualification,
+    profilePic: process.env.NEXT_PUBLIC_BACKEND + doc.profile_pic,
+  };
+
+  return doctor;
+};
+
 const getWorkingHours = (a: number, b: number) => {
   return `${a % 12}${a < 12 ? "AM" : "PM"} - ${b % 12}${b < 12 ? "AM" : "PM"}`;
 };
@@ -59,6 +86,7 @@ const getWorkingHours = (a: number, b: number) => {
 const DoctorController = {
   getDoctorList,
   searchDoctors,
+  getDoctorById,
 };
 
 export default DoctorController;
