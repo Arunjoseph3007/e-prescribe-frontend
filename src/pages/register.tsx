@@ -47,7 +47,7 @@ export default function Register() {
     <Box>
       <Flex minH="100vh" maxW="6xl" mx="auto">
         <Center flex={1}>
-          <Image src="/images/main_logo.png" w="30vw"></Image>
+          <Image src="/images/main_logo.PNG" w="30vw"></Image>
         </Center>
         <Box>
           <Box
