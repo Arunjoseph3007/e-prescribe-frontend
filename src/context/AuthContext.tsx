@@ -1,7 +1,8 @@
 import { AuthController } from "@/controllers/auth";
 import { TAuthContext, TRegister, TUser } from "@/interfaces/auth";
+import { queryClient } from "@/libs/reactQuery";
 import { useToast } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { createContext, ReactNode, useContext, useState } from "react";
 
@@ -19,8 +20,20 @@ export default function AuthContextProvider({
 }: {
   children: ReactNode;
 }) {
+  const [user, setUser] = useState<TUser | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] =
+    useState<TAuthContext["status"]>("unauthenticated");
   const router = useRouter();
   const toast = useToast({ isClosable: true });
+  const refresQuery = useQuery({
+    queryFn: AuthController.refresh,
+    queryKey: ["user-auth-details"],
+    onSuccess: (data) => {
+      setUser(data);
+      setStatus(data ? "authenticated" : "unauthenticated");
+    },
+  });
   const loginMutation = useMutation(AuthController.login, {
     onSuccess: (data) => {
       toast({
@@ -31,8 +44,10 @@ export default function AuthContextProvider({
       setUser({
         email: data.email,
         id: data.user_id,
+        age: data.age,
         userName: data.username,
         isDoctor: data.is_doctor,
+        fullName: data.first_name + " " + data.last_name,
       });
       setStatus("authenticated");
       router.push(data.is_doctor ? "/doctor" : "/patient");
@@ -84,14 +99,11 @@ export default function AuthContextProvider({
       setLoading(false);
     },
   });
-  const [user, setUser] = useState<TUser | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] =
-    useState<TAuthContext["status"]>("unauthenticated");
 
   const login = (email: string, password: string) => {
     setLoading(true);
     loginMutation.mutate({ email, password });
+    queryClient.invalidateQueries(["user-auth-details"]);
   };
 
   const register = (p: TRegister) => {
@@ -103,6 +115,8 @@ export default function AuthContextProvider({
     setStatus("unauthenticated");
     setUser(null);
     localStorage.removeItem("token");
+    router.push("/login");
+    queryClient.invalidateQueries(["user-auth-details"]);
   };
 
   return (

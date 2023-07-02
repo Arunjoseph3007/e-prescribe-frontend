@@ -6,7 +6,7 @@ const getDoctorList = async () => {
   const now = new Date().getHours();
   const doctors: Doctor[] = (data as any[]).map((doc) => {
     return {
-      id: doc.id,
+      id: doc.doctor,
       age: 30,
       lastName: doc.last_name,
       firstName: doc.first_name,
@@ -33,7 +33,7 @@ const searchDoctors = async (name: string, address: string, type: string) => {
   const now = new Date().getHours();
 
   const doctors: Doctor[] = (res.data as any[]).map((doc) => ({
-    id: doc.id,
+    id: doc.doctor,
     age: 30,
     lastName: doc.last_name,
     firstName: doc.first_name,

@@ -1,9 +1,4 @@
-import {
-  ChevronRightIcon,
-  EmailIcon,
-  PhoneIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+import { ChevronRightIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -18,30 +13,34 @@ import {
   Tab,
   TabPanels,
   TabPanel,
-  Avatar,
-  HStack,
-  Icon,
-  AvatarBadge,
-  Circle,
-  Tooltip,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
   Accordion,
+  Icon,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DoctorController from "@/controllers/doctor";
-import { FaClock, FaMap } from "react-icons/fa";
 import Link from "next/link";
-import { AiOutlineUser } from "react-icons/ai";
 import { getRecentSessions } from "@/controllers/sessions";
 import moment from "moment";
 import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
 import DoctorCard from "@/components/DoctorCard";
 import Head from "next/head";
+import { useAuth } from "@/context/AuthContext";
+import { FaUserNurse } from "react-icons/fa";
+import { RiTempColdFill } from "react-icons/ri";
+import { MdOutlineVisibility } from "react-icons/md";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
+  const { user } = useAuth();
   const doctorsQuery = useQuery({
     queryFn: DoctorController.getDoctorList,
     queryKey: ["recent-doctors"],
@@ -55,7 +54,7 @@ export default function HomePage() {
     queryKey: ["recent-visits"],
   });
 
-  return (  
+  return (
     <div>
       <Head>
         <title>Patient</title>
@@ -63,19 +62,51 @@ export default function HomePage() {
       </Head>
       <Navbar />
       <Box
-        maxW="6xl"
         mx="auto"
-        bg="gray.200"
-        h="120px"
-        w="75vw"
+        p={6}
+        shadow="md"
+        border="1px"
+        borderColor="blackAlpha.100"
+        w="95vw"
+        maxW="5xl"
         display="flex"
-        justifyContent="center"
-        alignItems="center"
+        justifyContent="space-between"
+        py="10"
         m="auto"
         borderRadius="10px"
         mt="40px"
       >
-        <Heading textAlign="center">Anil Shah</Heading>
+        <Box flex={1}>
+          <Heading>{user?.fullName}</Heading>
+          <Text color="blackAlpha.400">Age {user?.age}</Text>
+        </Box>
+
+        <Stat>
+          <StatLabel>Doctors</StatLabel>
+          <StatNumber>{doctorsQuery.data?.length}</StatNumber>
+          <StatHelpText>
+            <Icon mr={2} as={FaUserNurse} />
+            Consulted
+          </StatHelpText>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Sessions</StatLabel>
+          <StatNumber>{recentSessionsQuery.data?.length}</StatNumber>
+          <StatHelpText>
+            <Icon mr={2} as={RiTempColdFill} />
+            Completed
+          </StatHelpText>
+        </Stat>
+
+        <Stat>
+          <StatLabel>Visits</StatLabel>
+          <StatNumber>{recentVisitsQuery.data?.length}</StatNumber>
+          <StatHelpText>
+            <Icon mb={-1} fontSize="md" mr={2} as={MdOutlineVisibility} />
+            Visited
+          </StatHelpText>
+        </Stat>
       </Box>
 
       <Flex
@@ -86,23 +117,11 @@ export default function HomePage() {
         justifyContent="center"
         alignItems="center"
       >
-        <InputGroup size="md" w="60vw">
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            rounded="full"
-            pr="4.5rem"
-            placeholder="Enter Doctor's name to search"
-          />
-          <InputRightElement width="5.5rem">
-            <Button h="1.75rem" size="sm" bg="gray.250" rounded="full">
-              Search
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-        <Button width="4.5vw" ml={8} rounded="full">
-          <SearchIcon />
-        </Button>
+        <Link href="/patient/search">
+          <Button px={12} leftIcon={<SearchIcon />} ml={8} rounded="full">
+            Search Doctor
+          </Button>
+        </Link>
       </Flex>
 
       <Box mx="auto" maxW="5xl">
@@ -125,9 +144,10 @@ export default function HomePage() {
                 recentSessionsQuery.data.map((session) => (
                   <Flex
                     mx="auto"
-                    maxW="4xl"
-                    my={4}
-                    p={3}
+                    maxW="5xl"
+                    my={8}
+                    px="30px"
+                    py="45px"
                     rounded="md"
                     h="24"
                     alignItems={"center"}
@@ -137,25 +157,43 @@ export default function HomePage() {
                     key={session.id}
                   >
                     <Box flex={1}>
-                      <Heading fontWeight={"medium"} size="md">
+                      <Box>
+                        <strong>Title: </strong>
                         {session.title}
-                      </Heading>
-                      <Text fontSize={"sm"} color="GrayText">
-                        Last visit {moment(session.lastVisit).fromNow()}
-                      </Text>
-                      <Flex fontWeight="medium" gap={2}>
-                        <Text fontSize="sm">
-                          No Of Visits: {session.noOfVisits}
-                        </Text>
-                        <Text fontSize="sm">
-                          Starter at:{" "}
-                          {moment(session.startDate).format("DD/MM/YY")}
-                        </Text>
-                      </Flex>
+                      </Box>
+                      <Box
+                        width="45vw"
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        mt={3}
+                      >
+                        <Box width="30%">
+                          <Text fontSize={"sm"} color="GrayText">
+                            Last visit {moment(session.lastVisit).fromNow()}
+                          </Text>
+                        </Box>
+                        <Box>
+                          <Text fontSize="sm">
+                            No of Visits: {session.noOfVisits}
+                          </Text>
+                        </Box>
+                        <Box width="30%">
+                          <Text fontSize="sm">
+                            Started at:{" "}
+                            {moment(session.startDate).format("DD/MM/YY")}
+                          </Text>
+                        </Box>
+                      </Box>
                     </Box>
-                    <Link href={`patient/session/${session.id}`}>
-                      <ChevronRightIcon fontSize={"4xl"} color={"GrayText"} />
-                    </Link>
+                    <Box
+                      bgColor="var(--chakra-colors-green-500)"
+                      borderRadius="50%"
+                    >
+                      <Link href={`patient/session/${session.id}`}>
+                        <ChevronRightIcon fontSize={"4xl"} color={"white"} />
+                      </Link>
+                    </Box>
                   </Flex>
                 ))}
             </TabPanel>

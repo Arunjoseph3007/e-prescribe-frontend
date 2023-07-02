@@ -23,20 +23,35 @@ const typeOfDoctors = [
   "Other",
 ];
 
+const emptyType = {
+  value: "",
+  label: "None",
+};
+
 export default function SearchPage() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [type, setType] = useState("");
+  const [type, setType] = useState(emptyType);
   const [other, setOther] = useState("");
   const doctorsQuery = useQuery({
-    queryFn: () => DoctorController.searchDoctors(name, address, type.label),
-    queryKey: ["doctors-search", name, address, type?.label || ""],
+    queryFn: () =>
+      DoctorController.searchDoctors(
+        name,
+        address,
+        type.label == "Other" ? other : type.value
+      ),
+    queryKey: [
+      "doctors-search",
+      name,
+      address,
+      type.label == "Other" ? other : type.value,
+    ],
   });
 
   return (
     <div>
       <Navbar />
-      <Box maxW="5xl" m="auto" mt={6}>
+      <Box w="95vw" maxW="5xl" m="auto" mt={6}>
         <HStack spacing={6}>
           <FormControl mt={4} my={1}>
             <FormLabel>Name</FormLabel>
@@ -63,10 +78,13 @@ export default function SearchPage() {
             <FormLabel>Type</FormLabel>
             <Select
               onChange={(s) => setType(s)}
-              options={typeOfDoctors.map((type) => ({
-                value: type,
-                label: type,
-              }))}
+              options={[
+                emptyType,
+                ...typeOfDoctors.map((type) => ({
+                  value: type,
+                  label: type,
+                })),
+              ]}
             />
           </FormControl>
 
@@ -85,7 +103,7 @@ export default function SearchPage() {
         </HStack>
       </Box>
 
-      <Box minH="100vh" mx="auto" maxW="5xl" mt={6}>
+      <Box w="95vw" minH="100vh" mx="auto" maxW="5xl" mt={6}>
         {doctorsQuery.data &&
           doctorsQuery.data.map((doctor) => (
             <DoctorCard key={doctor.id} doctor={doctor} />
