@@ -20,6 +20,7 @@ import {
   StatArrow,
   StatGroup,
   Accordion,
+  Icon,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
@@ -32,6 +33,9 @@ import { getRecentVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
 import DoctorCard from "@/components/DoctorCard";
 import { useAuth } from "@/context/AuthContext";
+import { FaUserNurse } from "react-icons/fa";
+import { RiTempColdFill } from "react-icons/ri";
+import { MdOutlineVisibility } from "react-icons/md";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
@@ -71,14 +75,14 @@ export default function HomePage() {
       >
         <Box flex={1}>
           <Heading>{user?.fullName}</Heading>
-          <Text color="blackAlpha.400">Age 30</Text>
+          <Text color="blackAlpha.400">Age {user?.age}</Text>
         </Box>
 
         <Stat>
           <StatLabel>Doctors</StatLabel>
           <StatNumber>{doctorsQuery.data?.length}</StatNumber>
           <StatHelpText>
-            <StatArrow type="increase" />
+            <Icon mr={2} as={FaUserNurse} />
             Consulted
           </StatHelpText>
         </Stat>
@@ -87,8 +91,7 @@ export default function HomePage() {
           <StatLabel>Sessions</StatLabel>
           <StatNumber>{recentSessionsQuery.data?.length}</StatNumber>
           <StatHelpText>
-            <StatArrow type="increase" />
-            {/* <AddIcon/> */}
+            <Icon mr={2} as={RiTempColdFill} />
             Completed
           </StatHelpText>
         </Stat>
@@ -97,7 +100,7 @@ export default function HomePage() {
           <StatLabel>Visits</StatLabel>
           <StatNumber>{recentVisitsQuery.data?.length}</StatNumber>
           <StatHelpText>
-            <StatArrow type="decrease" />
+            <Icon mb={-1} fontSize='md' mr={2} as={MdOutlineVisibility} />
             Visited
           </StatHelpText>
         </Stat>

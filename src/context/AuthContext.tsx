@@ -40,6 +40,7 @@ export default function AuthContextProvider({
       setUser({
         email: data.email,
         id: data.user_id,
+        age: data.age,
         userName: data.username,
         isDoctor: data.is_doctor,
         fullName: data.first_name + " " + data.last_name,
