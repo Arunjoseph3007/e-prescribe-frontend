@@ -54,34 +54,7 @@ export default function Prescribe() {
           rounded="md"
           bg="gray.200"
         >
-          {/* <Box
-            top="100%"
-            left="75%"
-            translateY="-50%"
-            transform="auto"
-            position="absolute"
-          >
-            <Link href={router.asPath + "/new-visit"}>
-              <Circle p={3} color="white" bg="green.400">
-                <AddIcon fontSize="2xl" />
-              </Circle>
-            </Link>
-          </Box> */}
         </Box>
-
-        {/* 
-        <Box w="5xl" m="auto" borderRadius="10px">
-          <Button
-            my={3}
-          >
-            <Link href={router.asPath + "/new-visit"}>
-              <Box color="white" bg="green.400" m="auto">
-                <AddIcon fontSize="2xl" />
-              </Box>
-            </Link>
-          </Button>
-        </Box> */}
-
         <Box w="5xl" m="auto">
           <Link href={router.asPath + "/new-visit"}>
             <Button
