@@ -54,7 +54,7 @@ export default function HomePage() {
     queryKey: ["recent-visits"],
   });
 
-  return (  
+  return (
     <div>
       <Head>
         <title>Patient</title>
@@ -103,7 +103,7 @@ export default function HomePage() {
           <StatLabel>Visits</StatLabel>
           <StatNumber>{recentVisitsQuery.data?.length}</StatNumber>
           <StatHelpText>
-            <Icon mb={-1} fontSize='md' mr={2} as={MdOutlineVisibility} />
+            <Icon mb={-1} fontSize="md" mr={2} as={MdOutlineVisibility} />
             Visited
           </StatHelpText>
         </Stat>
@@ -117,23 +117,11 @@ export default function HomePage() {
         justifyContent="center"
         alignItems="center"
       >
-        <InputGroup size="md" w="60vw">
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            rounded="full"
-            pr="4.5rem"
-            placeholder="Enter Doctor's name to search"
-          />
-          <InputRightElement width="5.5rem">
-            <Button h="1.75rem" size="sm" bg="gray.250" rounded="full">
-              Search
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-        <Button width="4.5vw" ml={8} rounded="full">
-          <SearchIcon />
-        </Button>
+        <Link href="/patient/search">
+          <Button leftIcon={<SearchIcon />} px={12} rounded="full">
+            Search Doctors
+          </Button>
+        </Link>
       </Flex>
 
       <Box mx="auto" maxW="5xl">
