@@ -53,12 +53,14 @@ export default function Scanned() {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
+            
           >
             <Box
               width="70vw"
-              display="flex"
-              justifyContent="space-between"
+              display={{base:"flex-col",md:"flex"}}
+              justifyContent={{base:"center", md:"space-between"}}
               alignItems="center"
+              gap={{base:"3px",md:""}}
             >
               <Box>
                 <strong>Dr. Name:</strong> {detailsQuery.data.doctorName}
@@ -70,15 +72,16 @@ export default function Scanned() {
             </Box>
             <Box
               width="70vw"
-              display="flex"
-              justifyContent="space-between"
               alignItems="center"
-              mt={5}
+              mt={{md:5}}
+              display={{base:"flex-col",md:"flex"}}
+              justifyContent={{base:"center", md:"space-between"}}
+              gap={{base:"3px",md:""}}
             >
               <Box>
                 <strong>Patient Name:</strong> {detailsQuery.data.doctorName}
               </Box>
-              <Box width="13%">
+              <Box width={{base:"100%",md:"13%"}}>
                 <strong>Age:</strong> {detailsQuery.data.patientAge ?? "-"}
               </Box>
             </Box>
@@ -126,7 +129,7 @@ export default function Scanned() {
                       <Center>{presciption.days}</Center>
                     </Box>
                     <Box w="33%">
-                      <Center>
+                      <Center >
                         <Dosage dosage={presciption.dosage} />
                       </Center>
                     </Box>

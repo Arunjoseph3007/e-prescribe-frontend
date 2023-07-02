@@ -28,7 +28,7 @@ const getLabel = (dose: number, time: string) => {
 
 export default function Dosage({ dosage, ...props }: DosageProps) {
   return (
-    <HStack>
+    <HStack >
       <Tooltip label={getLabel(dosage.morning, "breakfast")}>
         <Circle
           size="15px"
@@ -41,7 +41,7 @@ export default function Dosage({ dosage, ...props }: DosageProps) {
           }
         />
       </Tooltip>
-      <Box w={"10"} h="2px" bg="blackAlpha.300" />
+      <Box w={{base:"3",md:"10"}} h="2px" bg="blackAlpha.300" />
       <Tooltip label={getLabel(dosage.afternoon, "lunch")}>
         <Circle
           size="15px"
@@ -54,7 +54,7 @@ export default function Dosage({ dosage, ...props }: DosageProps) {
           }
         />
       </Tooltip>
-      <Box w={"10"} h="2px" bg="blackAlpha.300" />
+      <Box w={{base:"3",md:"10"}} h="2px" bg="blackAlpha.300" />
       <Tooltip label={getLabel(dosage.evening, "dinner")}>
         <Circle
           size="15px"
