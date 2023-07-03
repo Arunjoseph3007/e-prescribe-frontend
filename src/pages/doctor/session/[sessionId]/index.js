@@ -17,7 +17,7 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import Dosage from "@/components/Dosage";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
@@ -78,8 +78,8 @@ export default function Prescribe() {
                 <Accordion allowMultiple>
                   {visitsQuery.data.map((val, index) => {
                     return (
-                      <>
-                        <AccordionItem border="none" key={index}>
+                      <Fragment key={index}>
+                        <AccordionItem border="none" >
                           <h2>
                             <AccordionButton onClick={() => togglePanel(index)}>
                               <Box as="span" flex="1" textAlign="left">
@@ -93,7 +93,7 @@ export default function Prescribe() {
                                     Symptoms:
                                     {val.symptoms.filter(Boolean).map((sym, ind) => (
                                       <Tag
-                                        key={ind}
+                                        key={ind*100+1}
                                         size="md"
                                         mb={3}
                                         variant="solid"
@@ -148,7 +148,7 @@ export default function Prescribe() {
                                     borderBottom={"1px"}
                                     borderColor={"blackAlpha.200"}
                                     fontWeight={"bold"}
-                                    key={i}
+                                    key={10*i+10}
                                     p={3}
                                     px={4}
                                     fontSize={"sm"}
@@ -171,7 +171,7 @@ export default function Prescribe() {
                           </AccordionPanel>
                         </AccordionItem>
                         <Divider />
-                      </>
+                      </Fragment>
                     );
                   })}
                 </Accordion>
