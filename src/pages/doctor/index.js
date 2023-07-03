@@ -23,17 +23,22 @@ import {
   Text,
   Tooltip,
   Icon,
+  useToast,
 } from "@chakra-ui/react";
 import Navbar from "@/components/Navbar";
 import PatientBox from "@/components/PatientBox";
 import { useState } from "react";
 import { PatientController } from "@/controllers/patients";
-import { useQuery } from "@tanstack/react-query";
+import { MedicineController } from "@/controllers/medicine";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import Head from "next/head";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Doctor() {
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth();
   const suggestModal = useDisclosure();
   const [query, setQuery] = useState("");
   const getPatientsQuery = useQuery({
@@ -44,6 +49,19 @@ export default function Doctor() {
     queryFn: () => PatientController.searchPatient(query),
     queryKey: ["patient-search", query],
     enabled: !!(query && isOpen),
+  });
+  const suggestMedMutation = useMutation({
+    mutationFn: MedicineController.suggestMedicine,
+    onSuccess: (data) => {
+      if (data.success) {
+        toast({
+          status: "success",
+          title: "Medicine suggested",
+          description: "We will verify and approve your medicine soon",
+        });
+        onClose();
+      }
+    },
   });
   const [suggestMed, setSuggestMed] = useState("");
   const [searchBox, setSearchBox] = useState("");
@@ -69,7 +87,7 @@ export default function Doctor() {
         borderRadius="10px"
         mt="40px"
       >
-        <Heading textAlign="center">Dr. Anil Shah</Heading>
+        <Heading textAlign="center">Dr. {user?.fullName}</Heading>
       </Box>
 
       <Flex
@@ -187,7 +205,12 @@ export default function Doctor() {
             <Button variant="ghost" mr={3} onClick={suggestModal.onClose}>
               Close
             </Button>
-            <Button colorScheme="green">Add</Button>
+            <Button
+              onClick={() => suggestMedMutation.mutate(suggestMed)}
+              colorScheme="green"
+            >
+              Add
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

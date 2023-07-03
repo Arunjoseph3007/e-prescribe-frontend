@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getSessionForPatient } from "@/controllers/sessions";
 import { useRouter } from "next/router";
 import moment from "moment";
+import DoctorProfileBox from "@/components/DoctorProfileBox";
 
 export default function DoctorPage() {
   const router = useRouter();
@@ -16,6 +17,11 @@ export default function DoctorPage() {
   return (
     <div>
       <Navbar />
+
+      <Box mx="auto" w="95vw" maxW="4xl" my="8">
+        <DoctorProfileBox id={router.query.doctorId as string} />
+      </Box>
+
       {sessionsQuery.data &&
         sessionsQuery.data.map((session) => (
           <Flex
