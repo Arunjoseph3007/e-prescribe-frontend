@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
 import PrescriptionAccordian from "@/components/PrescriptionAccordian";
+import Header from "@/components/Header";
+
 
 export default function SessionPage() {
   const router = useRouter();
@@ -18,8 +20,7 @@ export default function SessionPage() {
       <Navbar />
       <Box maxW="6xl" mx="auto">
         {/* //` STATS */}
-        <Box h="56" my={4} rounded="md" bg="gray.200"></Box>
-
+        <Header />
         <Flex
           mx="auto"
           maxW="5xl"

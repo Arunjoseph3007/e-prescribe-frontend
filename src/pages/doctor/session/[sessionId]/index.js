@@ -24,6 +24,7 @@ import { getVisits } from "@/controllers/visits";
 import moment from "moment";
 import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import Header from "../../../../components/Header";
 
 export default function Prescribe() {
   const router = useRouter();
@@ -46,15 +47,7 @@ export default function Prescribe() {
       <Navbar />
       <Box maxW="6xl" minH="100vh" mx="auto">
         {/* //` STATS */}
-        <Box
-          mb={"24"}
-          position="relative"
-          h="56"
-          my={4}
-          rounded="md"
-          bg="gray.200"
-        >
-        </Box>
+        <Header/>
         <Box w="5xl" m="auto">
           <Link href={router.asPath + "/new-visit"}>
             <Button
@@ -98,7 +91,7 @@ export default function Prescribe() {
                                 <Heading fontWeight={"medium"} size="md" my={4}>
                                   <Text>
                                     Symptoms:
-                                    {val.symptoms.map((sym, ind) => (
+                                    {val.symptoms.filter(Boolean).map((sym, ind) => (
                                       <Tag
                                         key={ind}
                                         size="md"

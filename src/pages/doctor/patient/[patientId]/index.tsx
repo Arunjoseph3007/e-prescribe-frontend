@@ -72,6 +72,9 @@ export default function PatientSessions() {
             disabled={!title}
             rounded="full"
             onClick={() => {
+              if(!title){
+                return ;
+              }
               postSessionMutation.mutate();
             }}
           >

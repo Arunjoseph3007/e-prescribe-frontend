@@ -46,13 +46,14 @@ export default function Doctor() {
     enabled: !!(query && isOpen),
   });
   const [suggestMed, setSuggestMed] = useState("");
-
+  const [searchBox, setSearchBox] = useState("");
+ 
   return (
     <div>
       <Head>
         <title>Doctor</title>
       </Head>
-      
+
       <Navbar />
 
       <Box
@@ -84,6 +85,10 @@ export default function Doctor() {
             rounded="full"
             pr="4.5rem"
             placeholder="Enter Patient's name to search"
+            onChange={(e) => {
+              setSearchBox(e.target.value)
+            }}
+            value={searchBox}
           />
           <InputRightElement pr={4} cursor="pointer">
             <SearchIcon />
@@ -96,7 +101,9 @@ export default function Doctor() {
       </Flex>
 
       {getPatientsQuery.data &&
-        getPatientsQuery.data.map((val, id) => {
+        getPatientsQuery.data.filter((patient)=>{
+          return patient.firstName.toLowerCase().includes(searchBox.toLowerCase())||patient.lastName.toLowerCase().includes(searchBox.toLowerCase())
+        }).map((val, id) => {
           return (
             <PatientBox
               username={val.userName}
@@ -157,12 +164,9 @@ export default function Doctor() {
         bottom="4"
         right="6"
       >
-        {/* <Box position="relative"> */}
         <Tooltip label="Suggest Medicine" placement="left">
-          {/* <Box as={CalendarIcon} boxSize={8} color="green" /> */}
           <CalendarIcon />
         </Tooltip>
-        {/* </Box> */}
       </Box>
 
       <Modal isOpen={suggestModal.isOpen} onClose={suggestModal.onClose}>
@@ -176,6 +180,7 @@ export default function Doctor() {
               rounded="full"
               variant={"filled"}
               placeholder="Enter name of Medicine"
+              value={suggestMed}
             />
           </ModalBody>
           <ModalFooter>
@@ -186,33 +191,6 @@ export default function Doctor() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
-      {/* <Box cursor="pointer" onClick={suggestModal.onOpen} position="fixed" right="5" bottom="5">
-        <Tooltip label='Suggest Medicine' placement='left-start'>
-          <Box color="green" as={FaMedkit} />
-        </Tooltip>
-      </Box>
-      <Modal isOpen={suggestModal.isOpen} onClose={suggestModal.onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Suggest a Medicine</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Input
-              onChange={(e) => setSuggestMed(e.target.value)}
-              rounded="full"
-              variant={"filled"}
-              placeholder="Enter name of Medicine"
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button variant='ghost' mr={3} onClick={suggestModal.onClose}>
-              Close
-            </Button>
-            <Button colorScheme='green' >Add</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal> */}
     </div>
   );
 }
