@@ -56,7 +56,7 @@ export default function PatientSessions() {
       <Navbar />
       <Box maxW="6xl" mx="auto">
         {/* //` STATS */}
-        <Box h="56" my={4} rounded="md" bg="gray.200"></Box>
+        {/* <Box h="56" my={4} rounded="md" bg="gray.200"></Box> */}
 
         {/* //` Add new session box */}
         <Flex gap={2} my={8} maxW="5xl" mx="auto" alignItems="center">

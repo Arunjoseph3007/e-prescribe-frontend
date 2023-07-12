@@ -64,7 +64,8 @@ export default function Doctor() {
     },
   });
   const [suggestMed, setSuggestMed] = useState("");
-
+  const [searchBox, setSearchBox] = useState("");
+ 
   return (
     <div>
       <Head>
@@ -102,6 +103,10 @@ export default function Doctor() {
             rounded="full"
             pr="4.5rem"
             placeholder="Enter Patient's name to search"
+            onChange={(e) => {
+              setSearchBox(e.target.value)
+            }}
+            value={searchBox}
           />
           <InputRightElement pr={4} cursor="pointer">
             <SearchIcon />
@@ -114,7 +119,9 @@ export default function Doctor() {
       </Flex>
 
       {getPatientsQuery.data &&
-        getPatientsQuery.data.map((val, id) => {
+        getPatientsQuery.data.filter((patient)=>{
+          return patient.firstName.toLowerCase().includes(searchBox.toLowerCase())||patient.lastName.toLowerCase().includes(searchBox.toLowerCase())
+        }).map((val, id) => {
           return (
             <PatientBox
               username={val.userName}
@@ -175,12 +182,9 @@ export default function Doctor() {
         bottom="4"
         right="6"
       >
-        {/* <Box position="relative"> */}
         <Tooltip label="Suggest Medicine" placement="left">
-          {/* <Box as={CalendarIcon} boxSize={8} color="green" /> */}
           <CalendarIcon />
         </Tooltip>
-        {/* </Box> */}
       </Box>
 
       <Modal isOpen={suggestModal.isOpen} onClose={suggestModal.onClose}>
@@ -194,6 +198,7 @@ export default function Doctor() {
               rounded="full"
               variant={"filled"}
               placeholder="Enter name of Medicine"
+              value={suggestMed}
             />
           </ModalBody>
           <ModalFooter>

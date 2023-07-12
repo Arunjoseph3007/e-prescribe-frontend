@@ -17,13 +17,14 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import Dosage from "@/components/Dosage";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { getVisits } from "@/controllers/visits";
 import moment from "moment";
 import { AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import Header from "../../../../components/Header";
 
 export default function Prescribe() {
   const router = useRouter();
@@ -46,15 +47,7 @@ export default function Prescribe() {
       <Navbar />
       <Box maxW="6xl" minH="100vh" mx="auto">
         {/* //` STATS */}
-        <Box
-          mb={"24"}
-          position="relative"
-          h="56"
-          my={4}
-          rounded="md"
-          bg="gray.200"
-        >
-        </Box>
+        <Header/>
         <Box w="5xl" m="auto">
           <Link href={router.asPath + "/new-visit"}>
             <Button
@@ -85,8 +78,8 @@ export default function Prescribe() {
                 <Accordion allowMultiple>
                   {visitsQuery.data.map((val, index) => {
                     return (
-                      <>
-                        <AccordionItem border="none" key={index}>
+                      <Fragment key={index}>
+                        <AccordionItem border="none" >
                           <h2>
                             <AccordionButton onClick={() => togglePanel(index)}>
                               <Box as="span" flex="1" textAlign="left">
@@ -98,9 +91,9 @@ export default function Prescribe() {
                                 <Heading fontWeight={"medium"} size="md" my={4}>
                                   <Text>
                                     Symptoms:
-                                    {val.symptoms.map((sym, ind) => (
+                                    {val.symptoms.filter(Boolean).map((sym, ind) => (
                                       <Tag
-                                        key={ind}
+                                        key={ind*100+1}
                                         size="md"
                                         mb={3}
                                         variant="solid"
@@ -155,7 +148,7 @@ export default function Prescribe() {
                                     borderBottom={"1px"}
                                     borderColor={"blackAlpha.200"}
                                     fontWeight={"bold"}
-                                    key={i}
+                                    key={10*i+10}
                                     p={3}
                                     px={4}
                                     fontSize={"sm"}
@@ -178,7 +171,7 @@ export default function Prescribe() {
                           </AccordionPanel>
                         </AccordionItem>
                         <Divider />
-                      </>
+                      </Fragment>
                     );
                   })}
                 </Accordion>
