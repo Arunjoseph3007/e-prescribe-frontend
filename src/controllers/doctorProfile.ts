@@ -6,7 +6,7 @@ const postDoctorProfile = async (profile: TDoctorProfilePost) => {
   const res = await axios.post(
     "/accounts/doctordetails/",
     toFormData({
-      doctor: 6,
+      doctor: profile.id,
       address: profile.address,
       address_link: profile.addrLink,
       phonenumber: profile.mobile,

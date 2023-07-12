@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { useAuth } from "@/context/AuthContext";
 import { DoctorProfileController } from "@/controllers/doctorProfile";
 import { EditIcon, LinkIcon } from "@chakra-ui/icons";
 import {
@@ -39,6 +40,7 @@ export type TTypeOfDoctor = (typeof typeOfDoctors)[number];
 export default function DoctorProfile() {
   const router = useRouter();
   const toast = useToast();
+  const { user } = useAuth();
   const [img, setImg] = useState<File | null>(null);
   const [mobile, setMobile] = useState("");
   const [qualification, setQualification] = useState("");
@@ -76,7 +78,7 @@ export default function DoctorProfile() {
       mobile,
       qualification,
       type: type?.label != "Other" ? type!.label : other,
-      id: 0,
+      id: +user!.id,
       profilePic: img!,
     });
   };
@@ -121,13 +123,14 @@ export default function DoctorProfile() {
                 right={0}
               >
                 <EditIcon fontSize={"lg"} />
+
               </Circle>
             </Avatar>
             <Text fontSize="2xl" fontWeight="bold">
-              John Doe
+              {user?.fullName}
             </Text>
             <Text fontSize="sm" color="blackAlpha.500">
-              john_doe1979
+              {user?.userName}
             </Text>
           </VStack>
 
